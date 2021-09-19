@@ -1,0 +1,66 @@
+@import "../../sass/_variables.scss";
+
+.nav-bar-container{
+    background-color: $mainColor;
+    display: flex;
+    justify-content: space-between;
+    height: 4rem;
+    .anchor-logo{
+        display: flex;
+        .logo{
+            align-self: center;
+            cursor: pointer;
+            height: 3rem;
+            margin-left: 1.87rem;
+        }
+    }
+    .menu-container{
+        color: $secondColor;
+        display: flex;
+        font-family: 'Open Sans', sans-serif;
+        margin-right: 1.88rem;
+        .nav-button{
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 2.14rem;
+            position: relative;
+            .anchor{
+                text-decoration: none;
+            }
+            .anchor:visited{
+                color: $secondColor;
+            }
+            .underline{
+                background-color: $secondColor;
+                height: 0.06rem;
+                margin: 0;
+                opacity: 0;
+                position: absolute;
+                top: 3.95rem;
+                width: 100%;
+            }
+            .active{
+                opacity: 1;
+            }
+        }
+        .nav-button:hover{
+            .underline{
+                opacity: 1;
+            }
+            .anchor{
+                font-weight: bold;
+            }
+        }
+        .active{
+            .underline{
+                opacity: 1;
+            }
+            .anchor{
+                font-weight: bold;
+            }
+        }
+    }
+}
