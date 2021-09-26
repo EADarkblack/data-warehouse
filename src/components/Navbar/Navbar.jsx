@@ -1,25 +1,23 @@
 // Libraries
 
 import React, {useState} from 'react';
-import { NavLink, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { NavLink, BrowserRouter as Router } from 'react-router-dom';
 
 // Styles
 
 import './Navbar.css';
 
-// Components
-
-import ContactsScreen from '../../pages/ContactsScreen';
-import CompanyScreen from '../../pages/CompanyScreen';
-import UserScreen from '../../pages/UserScreen';
-import LocationScreen from '../../pages/LocationScreen';
-
 // Functions
 
 const Navbar = () => {
+
+    /**
+     * An array with all data from each button on the nav bar.
+     */
+
     const buttons = [
         {
-            path: "/",
+            path: "/contact",
             name: "Contactos"
         },
         {
@@ -36,7 +34,16 @@ const Navbar = () => {
         }
     ];
 
+    /**
+     * This state allows add to the button the class name "active".
+     */
+
     const [isActive, setActive] = useState("Contactos");
+
+    /**
+     * 
+     * @param {string} name  Refers to the name from the actual button clicked by the user.
+     */
 
     const handleActive = (name) => {
         setActive(name);
@@ -45,7 +52,7 @@ const Navbar = () => {
     return (
         <Router>
         <nav className="nav-bar-container">
-            <NavLink to="/" className="anchor-logo" onClick={()=> handleActive("Contactos")}>
+            <NavLink to="/contact" className="anchor-logo" onClick={()=> handleActive("Contactos")}>
                 <img src="/assets/logo.png" alt="" className="logo"/>
             </NavLink>
             <div className="menu-container">
@@ -59,14 +66,8 @@ const Navbar = () => {
                 ))}
             </div>
         </nav>
-            <Switch>
-                <Route exact path="/" component={ContactsScreen} />
-                <Route exact path="/company" component={CompanyScreen} />
-                <Route exact path="/user" component={UserScreen} />
-                <Route exact path="/location" component={LocationScreen} />
-            </Switch>
         </Router>
     )
 }
 
-export default Navbar
+export default Navbar;

@@ -17,7 +17,7 @@
     .menu-container{
         color: $secondColor;
         display: flex;
-        font-family: 'Open Sans', sans-serif;
+        font-family: $mainFont;
         margin-right: 1.88rem;
         .nav-button{
             align-items: center;

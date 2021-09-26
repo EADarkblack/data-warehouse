@@ -1,11 +1,22 @@
+//
+
 const router = require('express').Router();
 const {PORT, USER, VERSION, PASSWORD, DB_NAME, KEY} = process.env;
 const {Sequelize} = require('sequelize');
 const sequelize = new Sequelize(`mysql://${USER}:${PASSWORD}@localhost:${PORT}/${DB_NAME}`)
 const jwt = require('jsonwebtoken');
 const sha1 = require('sha1');
+const rateLimit = require('express-rate-limit');
+
+//
+
 const user = require('./models/user');
 const User = user(sequelize, Sequelize);
+
+/* User.sync({force: true})
+ .then(() => {
+    console.log("hola");
+}) */
 
 // Middlewares
 
@@ -55,14 +66,14 @@ function validateLogin(req, res, next) {
     if(email && password) {
         const encriptedPass = sha1(password);
         User.findOne({where: {email: email, password: encriptedPass},
-            attributes: ['uuid', 'is_admin']
+            attributes: ['uuid', 'profile']
         })
         .then((data) => {
             if(data) {
-                const {uuid, is_admin} = data;
+                const {uuid, profile} = data;
                 const tokenData = {
-                    id: uuid,
-                    is_admin
+                    uuid,
+                    profile
                 };
                 const token = jwt.sign(tokenData, KEY);
                 req.token = token;
@@ -111,6 +122,24 @@ function validateIdRole(req, res, next) {
     }
 }
 
+/**
+ * 
+ */
+
+const msg = {
+    message: "has sobrepasado tu limite de logueos simultaneos, vuelve a intentarlo en un minuto."
+}
+
+/**
+ * 
+ */
+
+const loginLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 5,
+    message: msg
+});
+
 // Routes
 
 /**
@@ -133,32 +162,27 @@ router.get(`${VERSION}/user`, validateToken, validateRole, (req, res) => {
 });
 
 /**
- * Creates a new user and return the user object from the database (anybody can use this)
+ * 
  */
 
 router.post(`${VERSION}/user/register`, (req, res) => {
-    const {username, name, last_name, email, phone, address, password, is_admin} = req.body;
+    const {name, last_name, email, profile, password} = req.body;
     const encriptedPass = sha1(password);
     User.create({
-        username, 
         name, 
         last_name, 
         email, 
-        phone, 
-        address, 
-        password: encriptedPass, 
-        is_admin})
-    .then(({uuid, username, name, last_name, email, phone, address, is_admin, createdAt, updatedAt}) => {
+        profile, 
+        password: encriptedPass
+    })
+    .then(({uuid, name, last_name, email, profile, createdAt, updatedAt}) => {
         res.json({
-            uuid, 
-            username, 
-            name: name || null, 
-            last_name: last_name || null, 
-            email, 
-            phone, 
-            address, 
-            is_admin, 
-            createdAt, 
+            uuid,
+            name,
+            last_name: last_name || null,
+            email,
+            profile,
+            createdAt,
             updatedAt
         });
     })
@@ -171,10 +195,10 @@ router.post(`${VERSION}/user/register`, (req, res) => {
 });
 
 /**
- * When the user logged returns the main data of the user. (Is necessary send the token when the user gonna made this action.)
+ * 
  */
 
-router.post(`${VERSION}/user/login`, validateLogin, (req, res) => {
+router.post(`${VERSION}/user/login`, validateLogin, loginLimiter, (req, res) => {
     const token = req.token;
     const {email} = req.body;
     User.findOne({where: {email: email},

@@ -5,19 +5,9 @@ module.exports = (sequelize, {DataTypes}) => {
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                len: {
-                    args: [6, 100],
-                    msg: 'The username must be at least 6 characters long.'
-                }
-            }
-        },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
+            allowNull: false,
             validate: {
                 len: {
                     args: [1, 100],
@@ -26,7 +16,7 @@ module.exports = (sequelize, {DataTypes}) => {
             }
         },
         last_name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             validate: {
                 len: {
                     args: [1, 100],
@@ -35,7 +25,7 @@ module.exports = (sequelize, {DataTypes}) => {
             }
         },
         email: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             allowNull: false,
             unique: true,
             validate: {
@@ -49,28 +39,12 @@ module.exports = (sequelize, {DataTypes}) => {
                 }
             }
         },
-        phone: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: {
-                    args: [6, 25],
-                    msg: 'The phone must be at least 6 characters long.'
-                }
-            }
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: {
-                    args: [6, 200],
-                    msg: 'The address must be at least 6 characters long.'
-                }
-            }
+        profile: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(255),
             allowNull: false,
             validate: {
                 len: {
@@ -78,11 +52,6 @@ module.exports = (sequelize, {DataTypes}) => {
                     msg: 'The email must be at least 8 characters long.'
                 }
             }
-        },
-        is_admin: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         }
     },{
         freezeTableName: true,
