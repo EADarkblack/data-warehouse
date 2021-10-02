@@ -1,9 +1,12 @@
 // Libraries
 
 import React, { useState, useContext} from 'react';
+import { useHistory } from 'react-router-dom';
+
+// Components
+
 import { AuthContext } from '../../context/AuthContext';
 import { authTypes } from '../../types/authTypes';
-import { useHistory } from 'react-router-dom';
 
 // Styles
 
@@ -32,7 +35,7 @@ const LoginScreen = () => {
     const input = [
         {
             type: "email",
-            placeholder: "Correo Electronico"
+            placeholder: "Correo Electrónico"
         },
         {
             type: "password",
@@ -77,7 +80,7 @@ const LoginScreen = () => {
     /**
      * When the user click to the login button send a request http to the server, once responded the data, change on the reducer the login status and redirect automatically the user to the main section and finally saves on the localstorage the user's token.
      */
-
+    
     const sendToDb = async() => {
         const response = await fetch('http://localhost:4000/v1/user/login', requestOptions);
         const data = await response.json();
@@ -85,8 +88,17 @@ const LoginScreen = () => {
             dispatch({type: authTypes.login});
             history.push("/");
             localStorage.setItem('token', JSON.stringify(data.token));
+            localStorage.setItem('user', JSON.stringify(data.data.uuid));
+        } else {
+            setError(false);
         }
     }
+
+    /**
+     * When the user don't exists change the state to true, this allows render on the screen an error message.
+     */
+
+    const [error, setError] = useState(true);
 
     return (
         <div className="login-screen">
@@ -97,6 +109,7 @@ const LoginScreen = () => {
                         <input type={item.type} onChange={getData} className="login-input" placeholder={item.placeholder} name={item.type}/>
                     </label>
                 ))}
+                <div className={error ? "error-msg" : "error-msg active-msg"}>Credenciales Incorrectas.</div>
                 <hr />
                 <button onClick={sendToDb} className="submit-btn">INGRESAR</button>
             </div>

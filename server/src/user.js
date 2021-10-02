@@ -1,4 +1,4 @@
-//
+// Dependencies
 
 const router = require('express').Router();
 const {PORT, USER, VERSION, PASSWORD, DB_NAME, KEY} = process.env;
@@ -8,15 +8,10 @@ const jwt = require('jsonwebtoken');
 const sha1 = require('sha1');
 const rateLimit = require('express-rate-limit');
 
-//
+// Models
 
 const user = require('./models/user');
 const User = user(sequelize, Sequelize);
-
-/* User.sync({force: true})
- .then(() => {
-    console.log("hola");
-}) */
 
 // Middlewares
 
@@ -28,12 +23,12 @@ const User = user(sequelize, Sequelize);
  */
 
  function validateToken(req, res, next) {
-    const [, decodeToken] = req.rawHeaders;
-    const token = decodeToken.split(' ')[1];
+     const decodeToken = req.rawHeaders[11];
+     const token = decodeToken.split(' ')[1];
     token ? next() : res.status(401).json({
         error: 'Invalid token',
         status: 401
-    });;
+    });
 }
 
 /**
@@ -44,11 +39,11 @@ const User = user(sequelize, Sequelize);
  */
 
 function validateRole(req, res, next) {
-    const [, decodeToken] = req.rawHeaders;
+    const decodeToken = req.rawHeaders[11];
     const token = decodeToken.split(' ')[1];
     const decoded = jwt.verify(token, KEY);
-    const {is_admin} = decoded;
-    is_admin == true ? next() : res.status(403).json({
+    const {profile} = decoded;
+    profile == true ? next() : res.status(403).json({
         error: 'Administrator permissions are required to perform this action.',
         status: 403
     });
@@ -108,11 +103,11 @@ function validateLogin(req, res, next) {
 
 function validateIdRole(req, res, next) {
     const {id} = req.params;
-    const [, decodeToken] = req.rawHeaders;
+    const decodeToken = req.rawHeaders[11];
     const token = decodeToken.split(' ')[1];
     const decoded = jwt.verify(token, KEY);
-    const {is_admin} = decoded;
-    if (is_admin == true) {
+    const {profile} = decoded;
+    if (profile == true) {
         next();
     } else {
         id == decoded.id ? next() : res.status(401).json({
@@ -123,21 +118,13 @@ function validateIdRole(req, res, next) {
 }
 
 /**
- * 
- */
-
-const msg = {
-    message: "has sobrepasado tu limite de logueos simultaneos, vuelve a intentarlo en un minuto."
-}
-
-/**
- * 
+ * When the user makes 5 simultaneous login the server return an error advice to the user that must wait for one minute.
  */
 
 const loginLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 5,
-    message: msg
+    message: "You've exceeded your limit of simultaneous logins, please try again in a minute."
 });
 
 // Routes
@@ -158,11 +145,11 @@ router.get(`${VERSION}/user`, validateToken, validateRole, (req, res) => {
             error: `A problem has occurred with the server: ${err}.`,
             status: 500
         });
-    })
+    });
 });
 
 /**
- * 
+ * Allows register a new user on the app (Only an admin can perform this action.)
  */
 
 router.post(`${VERSION}/user/register`, (req, res) => {
@@ -195,7 +182,7 @@ router.post(`${VERSION}/user/register`, (req, res) => {
 });
 
 /**
- * 
+ * Allows to the user log on the app.
  */
 
 router.post(`${VERSION}/user/login`, validateLogin, loginLimiter, (req, res) => {
@@ -219,10 +206,10 @@ router.post(`${VERSION}/user/login`, validateLogin, loginLimiter, (req, res) => 
 });
 
 /**
- * Returns the main data from an user selected by his/her id. (Only admin user can perform this action.)
+ * Allows get an specific user from the database using him/her id. (Only an admin can perform this action.)
  */
 
-router.get(`${VERSION}/user/:id`, validateToken, validateRole, (req, res) => {
+router.get(`${VERSION}/user/:id`, validateToken, validateIdRole, (req, res) => {
     const {id} = req.params;
     User.findOne({where: {uuid: id},
         attributes: {exclude: ['id', 'password']}

@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+.title {
+  color: #1d72c2;
+  font-family: "Open Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 4rem 2.7rem 1rem;
+  text-align: right;
+}
+
+.user-data {
+  background-color: #1d72c2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.user-data .data {
+  color: #ffffff;
+  font-family: "Open Sans", sans-serif;
+  margin: 0rem 3.5rem;
+  padding-top: 1rem;
+}
+
+.user-data .data div {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.user-data .edit-user-btn {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  background-color: #1d72c2;
+  border: 1px solid #ffffff;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 2rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0.5rem;
+  width: 2rem;
+}
+
+.user-data .edit-user-btn i {
+  color: #ffffff;
+}
+
+.user-data .edit-user-btn:hover {
+  background-color: #ffffff;
+}
+
+.user-data .edit-user-btn:hover i {
+  color: #1d72c2;
+}
+
+.event-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 2rem 1.75rem 4.53rem 0;
+}
+
+.event-btn .add-user-btn {
+  background-color: #1d72c2;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  margin-right: 0.53rem;
+  width: 10.81rem;
+}
+
+.event-btn .add-user-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #1d72c2;
+  color: #1d72c2;
+}
+
+.event-btn .logout-btn {
+  background-color: #de0028;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  width: 10.81rem;
+}
+
+.event-btn .logout-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #de0028;
+  color: #de0028;
+}
+
+.user-table-container {
+  margin: 0 1.78rem 0 1.72rem;
+}
+/*# sourceMappingURL=UserScreen.css.map */

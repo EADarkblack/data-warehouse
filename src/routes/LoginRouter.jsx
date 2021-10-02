@@ -21,10 +21,10 @@ const LoginRouter = () => {
      */
 
     const {log} = useContext(AuthContext);
-    
+
     return (
         <Router>
-            <Navbar />
+            <Navbar auth={log}/>
             <Switch>
                 <PublicRoute path="/login" auth={log} component={LoginScreen}/>
                 <PrivateRoute path="/" auth={log} component={AppRouter} />
@@ -33,4 +33,4 @@ const LoginRouter = () => {
     )
 }
 
-export default LoginRouter
+export default LoginRouter;

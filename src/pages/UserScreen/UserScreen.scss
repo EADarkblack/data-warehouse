@@ -1,0 +1,86 @@
+@import "../../sass/variables";
+
+.title {
+    color: $mainColor;
+    font-family: $mainFont;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 4rem 2.7rem 1rem;
+    text-align: right;
+}
+.user-data {
+    background-color: $mainColor;
+    display: flex;
+    justify-content: space-between;
+    .data {
+        color: $secondColor;
+        font-family: $mainFont;
+        margin: 0rem 3.5rem;
+        padding-top: 1rem;
+        div {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        }
+    .edit-user-btn {
+        align-items: center;
+        align-self: flex-end;
+        background-color: $mainColor;
+        border: 1px solid $secondColor;
+        border-radius: 0.2rem;
+        cursor: pointer;
+        display: flex;
+        height: 2rem;
+        justify-content: center;
+        margin: 0.5rem;
+        width: 2rem;
+        i {
+            color: $secondColor;
+        }
+    }
+    .edit-user-btn:hover {
+        background-color: $secondColor;
+        i {
+            color: $mainColor;
+        }
+    }
+}
+.event-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2rem 1.75rem 4.53rem 0;
+    .add-user-btn {
+        background-color: $mainColor;
+        border: none;
+        border-radius: 0.1rem;
+        color: $secondColor;
+        cursor: pointer;
+        font-family: $mainFont;
+        height: 2.63rem;
+        margin-right: 0.53rem;
+        width: 10.81rem;
+    }
+    .add-user-btn:hover {
+        background-color: $secondColor;
+        border: 1px solid $mainColor;
+        color: $mainColor;
+    }
+    .logout-btn {
+        background-color: $fourthColor;
+        border: none;
+        border-radius: 0.1rem;
+        color: $secondColor;
+        cursor: pointer;
+        font-family: $mainFont;
+        height: 2.63rem;
+        width: 10.81rem;
+    }
+    .logout-btn:hover {
+        background-color: $secondColor;
+        border: 1px solid $fourthColor;
+        color: $fourthColor;
+    }
+}
+.user-table-container {
+    margin: 0 1.78rem 0 1.72rem;
+}

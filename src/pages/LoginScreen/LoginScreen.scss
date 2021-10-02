@@ -29,14 +29,14 @@
             position: absolute;
             top: 3rem;
         }
-        .input-container{
+        .input-container {
             border: 1px solid $mainColor;
             border-radius: 1.5rem;
             cursor: text;
             height: 3rem;
             margin-bottom: 1rem;
             width: 80%;
-            .login-input{
+            .login-input {
                 border: 0;
                 font-family: $mainFont;
                 font-size: 1rem;
@@ -46,12 +46,22 @@
                 width: 20rem;
             }
         }
+        .error-msg {
+            color: $fourthColor;
+            display: none;
+            font-family: $mainFont;
+            font-size: 0.9rem;
+            margin: 0 3rem;
+        }
+        .active-msg {
+            display: unset;
+        }
         hr {
             margin-top: 2rem;
             opacity: 0.5;
             width: 60%;
         }
-        .submit-btn{
+        .submit-btn {
             background-color: $mainColor;
             border: 1px solid $mainColor;
             border-radius: 0.5rem;
@@ -67,7 +77,7 @@
             top: 20rem;
             width: 50%;
         }
-        .submit-btn:hover{
+        .submit-btn:hover {
             background-color: $secondColor;
             color: $mainColor;
         }

@@ -66,6 +66,18 @@
   width: 20rem;
 }
 
+.login-screen .login-container .error-msg {
+  color: #de0028;
+  display: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  margin: 0 3rem;
+}
+
+.login-screen .login-container .active-msg {
+  display: unset;
+}
+
 .login-screen .login-container hr {
   margin-top: 2rem;
   opacity: 0.5;

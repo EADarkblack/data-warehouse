@@ -8,7 +8,7 @@ import { Route, Switch, Redirect} from 'react-router-dom';
 import CompanyScreen from '../pages/CompanyScreen';
 import ContactsScreen from '../pages/ContactsScreen';
 import LocationScreen from '../pages/LocationScreen';
-import UserScreen from '../pages/UserScreen';
+import UserScreen from '../pages/UserScreen/UserScreen';
 
 // Functions
 

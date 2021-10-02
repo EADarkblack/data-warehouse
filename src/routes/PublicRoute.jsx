@@ -14,7 +14,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PublicRoute = ({auth, component: Component, ...rest}) => {
     return (
-        <Route {...rest} component={(props) => !auth.log ? <Component {...props} /> : <Redirect to="/company" />}/>
+        <Route {...rest} component={(props) => !auth.log ? <Component {...props} /> : <Redirect to="/contact" />}/>
     )
 }
 

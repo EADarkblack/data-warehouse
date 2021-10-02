@@ -1,7 +1,7 @@
 // Libraries
 
-import React, {useState} from 'react';
-import { NavLink, BrowserRouter as Router } from 'react-router-dom';
+import React,  {useState} from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Styles
 
@@ -9,7 +9,7 @@ import './Navbar.css';
 
 // Functions
 
-const Navbar = () => {
+const Navbar = ({auth}) => {
 
     /**
      * An array with all data from each button on the nav bar.
@@ -50,12 +50,11 @@ const Navbar = () => {
     }
 
     return (
-        <Router>
         <nav className="nav-bar-container">
             <NavLink to="/contact" className="anchor-logo" onClick={()=> handleActive("Contactos")}>
                 <img src="/assets/logo.png" alt="" className="logo"/>
             </NavLink>
-            <div className="menu-container">
+            <div className={auth.log ? "menu-container" : "menu-container active-menu"}>
                 {buttons.map((item) => (
                     <div onClick={() => handleActive(item.name)} className={isActive === item.name ? "nav-button active" : "nav-button"} key={item.name}>
                         <NavLink to={item.path} className="anchor">
@@ -66,7 +65,6 @@ const Navbar = () => {
                 ))}
             </div>
         </nav>
-        </Router>
     )
 }
 
