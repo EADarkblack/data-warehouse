@@ -23,8 +23,8 @@ const User = user(sequelize, Sequelize);
  */
 
  function validateToken(req, res, next) {
-     const decodeToken = req.rawHeaders[11];
-     const token = decodeToken.split(' ')[1];
+    const decodeToken = req.headers.authorization;
+    const token = decodeToken.split(' ')[1];
     token ? next() : res.status(401).json({
         error: 'Invalid token',
         status: 401
@@ -39,7 +39,7 @@ const User = user(sequelize, Sequelize);
  */
 
 function validateRole(req, res, next) {
-    const decodeToken = req.rawHeaders[11];
+    const decodeToken = req.headers.authorization;
     const token = decodeToken.split(' ')[1];
     const decoded = jwt.verify(token, KEY);
     const {profile} = decoded;
@@ -103,14 +103,14 @@ function validateLogin(req, res, next) {
 
 function validateIdRole(req, res, next) {
     const {id} = req.params;
-    const decodeToken = req.rawHeaders[11];
+    const decodeToken = req.headers.authorization;
     const token = decodeToken.split(' ')[1];
     const decoded = jwt.verify(token, KEY);
     const {profile} = decoded;
     if (profile == true) {
         next();
     } else {
-        id == decoded.id ? next() : res.status(401).json({
+        id == decoded.uuid ? next() : res.status(401).json({
             error: 'Invalid token',
             status: 401
         });
@@ -152,11 +152,11 @@ router.get(`${VERSION}/user`, validateToken, validateRole, (req, res) => {
  * Allows register a new user on the app (Only an admin can perform this action.)
  */
 
-router.post(`${VERSION}/user/register`, (req, res) => {
+router.post(`${VERSION}/user/register`, validateToken, validateRole, (req, res) => {
     const {name, last_name, email, profile, password} = req.body;
     const encriptedPass = sha1(password);
     User.create({
-        name, 
+        name: name, 
         last_name, 
         email, 
         profile, 
@@ -229,37 +229,31 @@ router.get(`${VERSION}/user/:id`, validateToken, validateIdRole, (req, res) => {
 });
 
 /**
- * Allows edit any user on the database, for this path any role can perform this action, although only admin user can edit others user data search him/her by the id.
+ * Allows modify the data from an user by his/her uuid.
  */
 
 router.put(`${VERSION}/user/:id`, validateToken, validateIdRole, (req, res) => {
     const {id} = req.params;
-    const {username, name, last_name, email, phone, address, password, is_admin} = req.body;
+    const {name, last_name, email, profile, password} = req.body;
     const encriptedNewPass = password && sha1(password);
     User.update({
-        username,
         name,
         last_name,
         email,
-        phone,
-        address,
+        profile,
         password : encriptedNewPass,
-        is_admin
     }, {where: {uuid: id}})
     .then(() => {
         User.findOne({where:{uuid: id}})
         .then((data) => {
             if (data) {
-                const {uuid, username, name, last_name, email, phone, address, is_admin, createdAt, updatedAt} = data.dataValues;
+                const {uuid, name, last_name, email, profile, createdAt, updatedAt} = data.dataValues;
                 res.json({
                     uuid, 
-                    username, 
-                    name: name || null, 
+                    name, 
                     last_name: last_name || null, 
                     email, 
-                    phone, 
-                    address, 
-                    is_admin, 
+                    profile, 
                     createdAt, 
                     updatedAt
                 });

@@ -6,13 +6,13 @@ import React from 'react';
 
 import './Checkbox.css';
 
+// Functions
+
 const Checkbox = () => {
     return (
-        <th className="checkbox-container">
-            <div className="checkbox-border">
-                <input type="checkbox" className="checkbox"/>
-            </div>
-        </th>
+        <div className="checkbox-border">
+            <input onClick={() => console.log("seleccionar todo")} type="checkbox" className="checkbox"/>
+        </div>
     )
 }
 

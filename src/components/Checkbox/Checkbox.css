@@ -1,29 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
-.checkbox-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.checkbox-container .checkbox-border {
+.checkbox-border {
   border: 2px solid #828282;
   border-radius: 0.15rem;
-  width: 0.94rem;
   height: 0.94rem;
   margin-top: 1.2rem;
   position: relative;
+  width: 0.94rem;
 }
 
-.checkbox-container .checkbox-border .checkbox {
-  width: 1rem;
+.checkbox-border .checkbox {
+  cursor: pointer;
   height: 1rem;
-  z-index: 1;
   opacity: 0.5;
   position: absolute;
   right: -0.22rem;
   top: -0.22rem;
+  width: 1rem;
+  z-index: 1;
 }
 /*# sourceMappingURL=Checkbox.css.map */

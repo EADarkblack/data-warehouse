@@ -1,0 +1,63 @@
+@import "../../sass/_variables.scss";
+
+.data-container {
+    align-items: center;
+    display: flex;
+    height: 3.5rem;
+    justify-content: space-between;
+    padding: 0 1.09rem 0 1.16rem;
+    .checkbox-container {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin: 0 1rem 1rem 0;
+    }
+    .data-box {
+        font-family: $mainFont;
+        font-size: 0.9rem;
+        font-weight: lighter;
+        padding-left: 1.04rem;
+        width: 100%;
+        .fa-trash {
+            display: none;
+        }
+        .fa-pen {
+            display: none;
+        }
+    }
+    .data-box:nth-last-child(1) {
+        padding-left: 0;
+        padding-right: 1.04rem;
+        text-align: center;
+        width: 25%;
+        .fa-ellipsis-h {
+            color: darken($lineColor, $amount: 100);
+            cursor: pointer;
+        }
+    }
+}
+.data-container:hover {
+    background-color: $lineColor;
+    .data-box {
+        .fa-ellipsis-h {
+            display: none;
+        }
+        .fa-trash {
+            display: inline-block;
+            cursor: pointer;
+            color: darken($lineColor, $amount: 50);
+        }
+        .fa-trash:hover {
+            color: darken($lineColor, $amount: 100);
+        }
+        .fa-pen {
+            margin-left: 1rem;
+            display: inline-block;
+            cursor: pointer;
+            color: darken($lineColor, $amount: 50);
+        }
+        .fa-pen:hover {
+            color: darken($lineColor, $amount: 100);
+        }
+    }
+}

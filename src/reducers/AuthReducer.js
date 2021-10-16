@@ -21,4 +21,3 @@ export const AuthReducer = (state, action) => {
             return state;
     }
 }
-
