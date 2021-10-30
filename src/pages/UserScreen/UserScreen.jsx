@@ -12,6 +12,7 @@ import { authTypes } from '../../types/authTypes';
 import { DataContext } from '../../context/DataContext';
 import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
+import { DataTableContext } from '../../context/DataTableContext';
 
 // Styles
 
@@ -37,7 +38,7 @@ const UserScreen = () => {
      * saves an array with all users registered on the app.
      */
 
-    const [users, setUsers] = useState([]);
+    const {allData, setAllData} = useContext(DataTableContext);
 
     /**
      * Gets the user's uuid from the localstorage.
@@ -90,7 +91,7 @@ const UserScreen = () => {
             'Authorization': `Bearer ${token}`
         }});
         const users = await response.json();
-        setUsers(users);
+        setAllData(users);
     }
     
     /**
@@ -307,7 +308,7 @@ const UserScreen = () => {
         ],
         pic: false
     }
-    
+
     return (
         <>
             <DataManager active={closeNode} info={infoComponent} current={current} token={token}/>
@@ -336,7 +337,7 @@ const UserScreen = () => {
                 <>
                     {
 
-                        data.profile && <DataTable tableClass={"user-table-container"} user={users} columns={columns}/>
+                        data.profile && <DataTable tableClass={"user-table-container"} user={allData} columns={columns} token={token} title_delete={"usuarios"}/>
                     }
                 </>
             </div>

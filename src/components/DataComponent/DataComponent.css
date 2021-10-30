@@ -82,4 +82,8 @@
 .data-container:hover .data-box .fa-pen:hover {
   color: black;
 }
+
+.active-container {
+  background-color: #d9ecfe;
+}
 /*# sourceMappingURL=DataComponent.css.map */

@@ -12,7 +12,7 @@ import LoginRouter from './routes/LoginRouter';
 
 /**
  * 
- * @returns The initial state form the reducer.
+ * @returns The initial state from the reducer.
  */
 
 const init = () => {

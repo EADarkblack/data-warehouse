@@ -7,6 +7,7 @@ import { Route, Switch, Redirect} from 'react-router-dom';
 
 import { CurrentDataManagerContext } from '../context/CurrentDataManagerContext';
 import { DataContext } from '../context/DataContext';
+import { DataTableContext } from '../context/DataTableContext';
 import { InfoComponentContext } from '../context/InfoComponentContext';
 import CompanyScreen from '../pages/CompanyScreen';
 import ContactsScreen from '../pages/ContactsScreen';
@@ -92,16 +93,24 @@ const AppRouter = () => {
 
     const [current, setCurrent] = useState("new");
 
+    /**
+     * Gets an updated version of all data from the data base and allow to send the state to every page on the app.
+     */
+
+    const [allData, setAllData] = useState([]);
+
     return (
         <>
             <Switch>
                 <DataContext.Provider value={{closeNode, setCloseNode}}>
                 <InfoComponentContext.Provider value={{infoComponent, setInfoComponent}}>
                 <CurrentDataManagerContext.Provider value={{current, setCurrent}}>
+                <DataTableContext.Provider value={{allData, setAllData}}>
                     <Route exact path="/contact" component={ContactsScreen} />
                     <Route exact path="/company" component={CompanyScreen} />
                     <Route exact path="/user" component={UserScreen} />
                     <Route exact path="/location" component={LocationScreen} />
+                </DataTableContext.Provider>
                 </CurrentDataManagerContext.Provider>
                 </InfoComponentContext.Provider>
                 </DataContext.Provider>

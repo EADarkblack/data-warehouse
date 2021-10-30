@@ -12,10 +12,11 @@ import Checkbox from '../Checkbox/Checkbox';
 import { DataContext } from '../../context/DataContext';
 import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
+import { DataTableContext } from '../../context/DataTableContext';
 
 // Functions
 
-const DataComponent = ({data}) => {
+const DataComponent = ({data, token, className}) => {
 
     /**
      * Takes "profile" and assign a value that can be render on the screen.
@@ -27,19 +28,25 @@ const DataComponent = ({data}) => {
      *  Takes from the context the current state for the "Data Manager" component.
      */
 
-    const {closeNode, setCloseNode} = useContext(DataContext);
+    const {setCloseNode} = useContext(DataContext);
 
     /**
      * Takes from the context the object's current state that allows show the respective input options on the "Data Manager" component.
      */
 
-    const {infoComponent, setInfoComponent} = useContext(InfoComponentContext);
+    const {setInfoComponent} = useContext(InfoComponentContext);
 
     /**
      * Takes from the context the data type handler's current state for the "Data Manager".
      */
 
-    const {current, setCurrent} = useContext(CurrentDataManagerContext)
+    const {setCurrent} = useContext(CurrentDataManagerContext);
+
+    /**
+     * Sets an updated version of all data from the data base.
+     */
+
+    const {setAllData} = useContext(DataTableContext);
 
     /**
      *  An object with all data for the "Data Manager" for every user data component.
@@ -93,13 +100,39 @@ const DataComponent = ({data}) => {
         owner: data,
         pic: false
     }
+    
+    /**
+     * Gets from the database the current version of all data.
+     */
+    
+     const getRequestUser = async() => {
+        const response = await fetch('http://localhost:4000/v1/user', {headers: {
+            'Authorization': `Bearer ${token}`
+        }});
+        const users = await response.json();
+        setAllData(users);
+    }
 
     /**
-     * sopa do macaco
+     * The request options for the data delete request.
      */
 
-    const a = () => {
-        console.log("sopa do macaco")
+    const requestOpt = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    }
+
+    /**
+     * The delete request for the data from the data table.
+     */
+
+    const deleteData = async() => {
+        const {uuid} = data;
+        const response = await fetch(`http://localhost:4000/v1/user/${uuid}`, requestOpt);
+        const dataRes = await response.json();
+        dataRes && getRequestUser();
     }
 
     /**
@@ -107,15 +140,15 @@ const DataComponent = ({data}) => {
      */
 
     const editCurrentUser = () => {
-        setCurrent("edit");
-        setInfoComponent(editUserObj)
+        setCurrent("edit-user");
+        setInfoComponent(editUserObj);
         setCloseNode("data-manager-bg active");
     }
     
     return (
-        <div className="data-container">
+        <div className={className}>
             <div className="checkbox-container">
-                <Checkbox />
+                <Checkbox uuid={data.uuid}/>
             </div>
             <div className="data-box">
                 {data.name} {data.last_name}
@@ -128,7 +161,7 @@ const DataComponent = ({data}) => {
             </div>
             <div className="data-box">
                 <i className="fas fa-ellipsis-h"></i>
-                <i onClick={a} className="fas fa-trash"></i>
+                <i onClick={deleteData} className="fas fa-trash"></i>
                 <i onClick={editCurrentUser}  className="fas fa-pen"></i>
             </div>
         </div>

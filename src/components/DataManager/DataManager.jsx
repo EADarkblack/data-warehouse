@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react';
 
 import { AuthContext } from '../../context/AuthContext';
 import { DataContext } from '../../context/DataContext';
+import { DataTableContext } from '../../context/DataTableContext';
 import { authTypes } from '../../types/authTypes';
 import Button from '../Button/Button';
 
@@ -34,7 +35,13 @@ const DataManager = ({info, current, token}) => {
      */
 
     const [inputData, setInputData] = useState({});
+
+    /**
+     * Sets an updated version of all data from the data base.
+     */
     
+    const {setAllData} = useContext(DataTableContext);
+
     /**
      * Allows close the "Data Manager" window on the app.
      */
@@ -69,7 +76,19 @@ const DataManager = ({info, current, token}) => {
      */
 
     const [error, setError] = useState(false);
-
+    
+    /**
+     * Gets from the database the current version of all data.
+     */
+    
+    const getRequestUser = async() => {
+        const response = await fetch('http://localhost:4000/v1/user', {headers: {
+            'Authorization': `Bearer ${token}`
+        }});
+        const users = await response.json();
+        setAllData(users);
+    }
+    
     /**
      * Creates a new user when the admin user execute the create user button, this function gets all data from the inputs and later send all that data to the server. when the user is created successfully the "Data Manager" automatically close.
      */
@@ -108,6 +127,7 @@ const DataManager = ({info, current, token}) => {
             } else {
                 setInputData({});
                 setCloseNode("data-manager-bg");
+                getRequestUser();
             }
         } else {
             setErrorMsg("Las contraseñas no son iguales.");
@@ -163,6 +183,52 @@ const DataManager = ({info, current, token}) => {
     }
 
     /**
+     * This function allows modify the data from an user selected by the admin on the table.
+     */
+
+     const editUser = async() => {
+        const {uuid} = info.owner;
+        const {name, last_name, email, profile, password, confirm_password} = inputData;
+        let profileBool = null;
+        if (profile === 'Administrador') {
+            profileBool = true;
+        } else if (profile === 'Básico') {
+            profileBool = false;
+        } else {
+            profileBool = info.owner.profile
+        }
+        if (password === confirm_password) {      
+            const optionRequest = {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },        
+                body: JSON.stringify({
+                    name: name,
+                    last_name: last_name,
+                    email: email || info.owner.email,
+                    profile: profileBool,
+                    password: password
+                })
+            }
+            const response = await fetch(`http://localhost:4000/v1/user/${uuid}`, optionRequest);
+            const data = await response.json();
+            if (data.error) {
+                setErrorMsg("Dato inválido.");
+                setError(true);
+            } else {
+                setInputData({});
+                setCloseNode("data-manager-bg");
+                getRequestUser();
+            }
+        } else {
+            setErrorMsg("Las contraseñas no son iguales.");
+            setError(true);
+        }
+    }
+
+    /**
      * This function allows execute the respective function or request on the "Data Manager" and this execution depends from which it the page that is execute this function.
      */
 
@@ -171,8 +237,10 @@ const DataManager = ({info, current, token}) => {
             createNewUserFunc();
         } else if (current === "edit") {
             editOwner();
+        } else if (current === "edit-user") {
+            editUser();
         } else {
-            console.log("hi there!!")
+            console.log("kk")
         }
     }
 
@@ -212,7 +280,7 @@ const DataManager = ({info, current, token}) => {
      */
     
     const [activeBtn, setActiveBtn] = useState(btnConfig.btn);
-    
+
     return (
         <div className={closeNode}>
             <div className="data-manager-container">

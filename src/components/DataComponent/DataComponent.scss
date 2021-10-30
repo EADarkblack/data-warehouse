@@ -61,3 +61,6 @@
         }
     }
 }
+.active-container {
+    background-color: lighten($selectedColor, $amount: 15);
+}
