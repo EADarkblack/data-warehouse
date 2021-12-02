@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+.node-bg {
+  width: 100%;
+  height: 200%;
+  background-color: #000000CC;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.node-bg .node-container {
+  width: 25rem;
+  height: 20rem;
+  background-color: #ffffff;
+  position: fixed;
+  bottom: 42%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-radius: 0.15rem;
+}
+
+.node-bg .node-container .delete-icon {
+  width: 7rem;
+  height: 7rem;
+  margin-top: 1.5rem;
+}
+
+.node-bg .node-container .confirmation-text {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.node-bg .node-container p {
+  margin: 0;
+  font-size: 1rem;
+  font-family: "Open Sans", sans-serif;
+  color: #000000;
+}
+
+.node-bg .node-container .cancel-btn {
+  background-color: #1d72c2;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  width: 10rem;
+  margin-right: 1rem;
+}
+
+.node-bg .node-container .cancel-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #1d72c2;
+  color: #1d72c2;
+}
+
+.node-bg .node-container .delete-btn {
+  background-color: #de0028;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  height: 2.63rem;
+  width: 10rem;
+  margin-left: 1rem;
+}
+
+.node-bg .node-container .delete-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #de0028;
+  color: #de0028;
+}
+
+.no-active-node {
+  display: none;
+}
+/*# sourceMappingURL=ConfirmationNode.css.map */

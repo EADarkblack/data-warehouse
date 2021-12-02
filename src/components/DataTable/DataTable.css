@@ -121,15 +121,13 @@
 }
 
 .pag-menu .pag-controller .pag-select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border: none;
+  border: 1px solid #ffffff;
   color: dimgray;
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
   margin: 0 0.41rem 0 0.95rem;
   outline: none;
+  font-size: 0.9rem;
 }
 
 .pag-menu .pag-controller .fa-chevron-down {

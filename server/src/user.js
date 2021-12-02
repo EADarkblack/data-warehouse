@@ -2,7 +2,7 @@
 
 const router = require('express').Router();
 const {PORT, USER, VERSION, PASSWORD, DB_NAME, KEY} = process.env;
-const {Sequelize} = require('sequelize');
+const {Sequelize, Op} = require('sequelize');
 const sequelize = new Sequelize(`mysql://${USER}:${PASSWORD}@localhost:${PORT}/${DB_NAME}`)
 const jwt = require('jsonwebtoken');
 const sha1 = require('sha1');
@@ -134,8 +134,11 @@ const loginLimiter = rateLimit({
  */
 
 router.get(`${VERSION}/user`, validateToken, validateRole, (req, res) => {
+    const sortValue = req.rawHeaders[15];
+    const sortColumn = req.rawHeaders[9];
     User.findAll({
-        attributes: {exclude: ['id', 'password']}
+        attributes: {exclude: ['id', 'password']},
+        order: [[`${sortColumn}`, `${sortValue}`]]
     })
     .then((data) => {
         res.json(data)
@@ -288,7 +291,7 @@ router.delete(`${VERSION}/user/:id`, validateToken, validateIdRole, (req, res) =
     User.findOne({where: {uuid: id}})
     .then((data) => {
         if (data) {
-            User.destroy({where: {uuid: id}})
+            User.destroy({where: {[Op.and]: [{uuid: id}, {uuid: {[Op.ne]: '14909911-ba4c-4df4-9fb1-76fa72a670e4'}}]}})
             .then(() => {
                 res.json({
                     message: 'User deleted successfully.',

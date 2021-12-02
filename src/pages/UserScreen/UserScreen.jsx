@@ -71,6 +71,18 @@ const UserScreen = () => {
     const {infoComponent, setInfoComponent} = useContext(InfoComponentContext);
 
     /**
+     * 
+     */
+
+    const [sort, setSort] = useState("ASC");
+
+    /**
+     * 
+     */
+
+    const [column, setColumn] = useState("id");
+
+    /**
      * Gets the user's data from the server searching by his/her uuid.
      */
     
@@ -87,9 +99,13 @@ const UserScreen = () => {
      */
 
     const getAllUsers = async() => {
-        const response = await fetch('http://localhost:4000/v1/user', {headers: {
-            'Authorization': `Bearer ${token}`
-        }});
+        const response = await fetch('http://localhost:4000/v1/user', {
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            'Sort': sort,
+            'Column': column
+            }
+        });
         const users = await response.json();
         setAllData(users);
     }
@@ -117,7 +133,22 @@ const UserScreen = () => {
     const columns = [
         {
             title: "Usuario",
-            sort: true
+            sort: true,
+            func: () => {
+                if(column === "id") {
+                    setSort("ASC");
+                    setColumn("name");
+                    getAllUsers();
+                } else if(sort === "ASC") {
+                    setSort("DESC");
+                    setColumn("name");
+                    getAllUsers();
+                } else if(sort === "DESC") {
+                    setSort("ASC");
+                    setColumn("id");
+                    getAllUsers();
+                }
+            }
         },
         {
             title: "Correo Electrónico",

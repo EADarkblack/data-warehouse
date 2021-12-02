@@ -1,11 +1,13 @@
 // Libraries
 
-import React, { useState } from 'react';
-import { CheckboxContext } from '../../context/CheckboxContext';
+import React, { useState, useContext } from 'react';
 
 // Components
 
+import { CheckboxContext } from '../../context/CheckboxContext';
+import { ConfirmationNodeContext } from '../../context/ConfirmationNodeContext';
 import Checkbox from '../Checkbox/Checkbox';
+import ConfirmationNode from '../ConfirmationNode/ConfirmationNode';
 import DataComponent from '../DataComponent/DataComponent';
 
 // Styles
@@ -15,19 +17,35 @@ import './DataTable.css';
 // Functions
 
 const DataTable = ({user, columns, tableClass, token, title_delete}) => {
-    
+
     /**
      * @description - Sets the current data getted from the checkbox and allows make few actions with it.
      */
 
     const [checkboxData, setCheckboxData] = useState([]);
 
+    /**
+     * 
+     */
+  
+    const [confirmationNode, setConfirmationNode] = useState("node-bg no-active-node");
+
+    /**
+     * 
+     */
+
+    const deleteSelectedData = () => {
+        setConfirmationNode("node-bg");
+    }
+
     return (
         <CheckboxContext.Provider value={{checkboxData, setCheckboxData}}>
+        <ConfirmationNodeContext.Provider value={{confirmationNode, setConfirmationNode}}>
+            <ConfirmationNode token={token}/>
             <div className={tableClass}>
                 <div className={checkboxData.length > 0 ? "select-opt" : "select-opt hide-opt"}>
                     <div className="select-total">{checkboxData.length} seleccionados</div>
-                    <div className="delete-container">
+                    <div className="delete-container" onClick={deleteSelectedData}>
                         <i className="fas fa-trash"></i>
                         <div>Eliminar {title_delete}</div>
                     </div>
@@ -41,7 +59,7 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                             columns.map((item) => (
                                 <div className="title-column" key={item.title}>
                                     {item.title}
-                                    <i className={item.sort ? "fas fa-sort" : ""}></i>
+                                    <i className={item.sort ? "fas fa-sort" : ""} onClick={item.func}></i>
                                 </div>
                             ))
                         }
@@ -57,12 +75,11 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                 <div className="pag-menu">
                     <label className="pag-controller">
                         <p>Filas por página</p>
-                        <select className="pag-select">
+                        <select className="pag-select" onChange={(e) => console.log(e.target.value)}>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                         </select>
-                        <i className="fas fa-chevron-down"></i>
                     </label>
                     <div className="pag-number">
                         <p>1-10 de 30 filas</p>
@@ -73,6 +90,7 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                     </div>
                 </div>
             </div>
+        </ConfirmationNodeContext.Provider>
         </CheckboxContext.Provider>
     )
 }

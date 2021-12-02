@@ -107,7 +107,9 @@ const DataComponent = ({data, token, className}) => {
     
      const getRequestUser = async() => {
         const response = await fetch('http://localhost:4000/v1/user', {headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Sort': 'ASC',
+            'Column': 'id'
         }});
         const users = await response.json();
         setAllData(users);

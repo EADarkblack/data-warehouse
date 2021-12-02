@@ -78,14 +78,14 @@
     .pag-controller {
         align-items: center;
         display: flex;
-        .pag-select {
-            appearance: none;
-            border: none;
+        .pag-select {   
+            border: 1px solid $secondColor;
             color: darken($lineColor, $amount: 50);
             cursor: pointer;
             font-family: $mainFont;
             margin: 0 0.41rem 0 0.95rem;
             outline: none;
+            font-size: 0.9rem;
         }
         .fa-chevron-down {
             cursor: pointer;
