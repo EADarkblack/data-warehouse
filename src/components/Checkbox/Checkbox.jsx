@@ -12,7 +12,7 @@ import './Checkbox.css';
 
 // Functions
 
-const Checkbox = ({uuid, data}) => {
+const Checkbox = ({uuid, data, checkboxClass}) => {
 
     /**
      * Gets all data from checkbox context.
@@ -78,7 +78,10 @@ const Checkbox = ({uuid, data}) => {
     }
 
     return (
-        <div className="checkbox-border">
+        <div className={checkboxClass}>
+            <div className="icon">
+                <i className={checkboxClass === 'checkbox-border active' ? 'fas fa-check' : 'fas fa-minus'}></i>
+            </div>
             <input onClick={handleCheckbox} type="checkbox" className="checkbox"/>
         </div>
     )

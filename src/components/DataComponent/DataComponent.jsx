@@ -16,7 +16,7 @@ import { DataTableContext } from '../../context/DataTableContext';
 
 // Functions
 
-const DataComponent = ({data, token, className}) => {
+const DataComponent = ({data, token, className, checkboxClass}) => {
 
     /**
      * Takes "profile" and assign a value that can be render on the screen.
@@ -150,7 +150,7 @@ const DataComponent = ({data, token, className}) => {
     return (
         <div className={className}>
             <div className="checkbox-container">
-                <Checkbox uuid={data.uuid}/>
+                <Checkbox uuid={data.uuid} checkboxClass={checkboxClass}/>
             </div>
             <div className="data-box">
                 {data.name} {data.last_name}

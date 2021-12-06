@@ -53,7 +53,7 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                 <div className="table-border">
                     <div className="title-row">
                         <div className="checkbox-container">
-                            <Checkbox data={user}/>
+                            <Checkbox data={user} checkboxClass={checkboxData.length != 0 ? 'checkbox-border block' : 'checkbox-border'}/>
                         </div>
                         {
                             columns.map((item) => (
@@ -68,7 +68,7 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                         user.map((item) => (
                             <DataComponent data={item} key={item.uuid} token={token} className={
                                 checkboxData.find(value => value === item.uuid) ? "data-container active-container" : "data-container"
-                            }/>
+                            } checkboxClass={checkboxData.find(value => value === item.uuid) ? "checkbox-border active" : "checkbox-border"}/>
                         ))
                     }
                 </div>
