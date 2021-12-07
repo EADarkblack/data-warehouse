@@ -1,11 +1,13 @@
 // Libraries
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 // Components
 
 import { CheckboxContext } from '../../context/CheckboxContext';
 import { ConfirmationNodeContext } from '../../context/ConfirmationNodeContext';
+import { DataTableContext } from '../../context/DataTableContext';
+import { LimitDataContext } from '../../context/LimitDataContext';
 import Checkbox from '../Checkbox/Checkbox';
 import ConfirmationNode from '../ConfirmationNode/ConfirmationNode';
 import DataComponent from '../DataComponent/DataComponent';
@@ -16,7 +18,7 @@ import './DataTable.css';
 
 // Functions
 
-const DataTable = ({user, columns, tableClass, token, title_delete}) => {
+const DataTable = ({user, columns, tableClass, token, title_delete, totalResults}) => {
 
     /**
      * @description - Sets the current data getted from the checkbox and allows make few actions with it.
@@ -34,8 +36,35 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
      * 
      */
 
+    const {limit, setLimit} = useContext(LimitDataContext);
+
+    /**
+     * 
+     */
+
+    const {allData} = useContext(DataTableContext);
+
+    /**
+     * 
+     */
+
+    let [offset, setOffset] = useState(0);
+
+    /**
+     * 
+     */
+
     const deleteSelectedData = () => {
         setConfirmationNode("node-bg");
+    }
+
+    /**
+     * 
+     */
+
+    const a = (text) => {
+        console.log(`${text} pana miguel!!!`);
+        console.log(offset);
     }
 
     return (
@@ -75,17 +104,23 @@ const DataTable = ({user, columns, tableClass, token, title_delete}) => {
                 <div className="pag-menu">
                     <label className="pag-controller">
                         <p>Filas por página</p>
-                        <select className="pag-select" onChange={(e) => console.log(e.target.value)}>
+                        <select className="pag-select" onChange={(e) => setLimit(parseInt(e.target.value))}>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                         </select>
                     </label>
                     <div className="pag-number">
-                        <p>1-10 de 30 filas</p>
+                        <p>1 - {allData.length} de {totalResults} filas</p>
                         <div className="arrows">
-                            <i className="fas fa-chevron-left"></i>
-                            <i className="fas fa-chevron-right"></i>
+                            <i className="fas fa-chevron-left"  onClick={() =>  {
+                                setOffset(offset === 0 ? 0 : offset - limit);
+                                a("Adios");
+                            }}></i>
+                            <i className="fas fa-chevron-right" onClick={() => {
+                                setOffset(totalResults < offset ? offset + limit : limit);
+                                a("Hola");
+                            }}></i>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, Redirect} from 'react-router-dom';
 
 // Components
@@ -9,6 +9,7 @@ import { CurrentDataManagerContext } from '../context/CurrentDataManagerContext'
 import { DataContext } from '../context/DataContext';
 import { DataTableContext } from '../context/DataTableContext';
 import { InfoComponentContext } from '../context/InfoComponentContext';
+import { LimitDataContext } from '../context/LimitDataContext';
 import CompanyScreen from '../pages/CompanyScreen';
 import ContactsScreen from '../pages/ContactsScreen';
 import LocationScreen from '../pages/LocationScreen';
@@ -99,6 +100,12 @@ const AppRouter = () => {
 
     const [allData, setAllData] = useState([]);
 
+    /**
+     * 
+     */
+
+    const [limit, setLimit] = useState(10);
+
     return (
         <>
             <Switch>
@@ -106,10 +113,12 @@ const AppRouter = () => {
                 <InfoComponentContext.Provider value={{infoComponent, setInfoComponent}}>
                 <CurrentDataManagerContext.Provider value={{current, setCurrent}}>
                 <DataTableContext.Provider value={{allData, setAllData}}>
+                <LimitDataContext.Provider value={{limit, setLimit}}>
                     <Route exact path="/contact" component={ContactsScreen} />
                     <Route exact path="/company" component={CompanyScreen} />
                     <Route exact path="/user" component={UserScreen} />
                     <Route exact path="/location" component={LocationScreen} />
+                </LimitDataContext.Provider>
                 </DataTableContext.Provider>
                 </CurrentDataManagerContext.Provider>
                 </InfoComponentContext.Provider>

@@ -13,6 +13,7 @@ import { DataContext } from '../../context/DataContext';
 import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
 import { DataTableContext } from '../../context/DataTableContext';
+import { LimitDataContext } from '../../context/LimitDataContext';
 
 // Styles
 
@@ -74,6 +75,12 @@ const UserScreen = () => {
      * 
      */
 
+    const {limit, useLimit} = useContext(LimitDataContext);
+
+    /**
+     * 
+     */
+
     const [sort, setSort] = useState("ASC");
 
     /**
@@ -81,6 +88,12 @@ const UserScreen = () => {
      */
 
     const [column, setColumn] = useState("id");
+
+    /**
+     * 
+     */
+
+    const [totalResults, setTotalResults] = useState(0);
 
     /**
      * Gets the user's data from the server searching by his/her uuid.
@@ -103,11 +116,32 @@ const UserScreen = () => {
             headers: {
             'Authorization': `Bearer ${token}`,
             'Sort': sort,
-            'Column': column
+            'Column': column,
+            'limit': limit,
+            'offset': 0
             }
         });
         const users = await response.json();
         setAllData(users);
+    }
+
+        
+    /**
+     * Gets all users registered on the app.
+     */
+
+     const getTotalResults = async() => {
+        const response = await fetch('http://localhost:4000/v1/user', {
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            'Sort': sort,
+            'Column': column,
+            'limit': 1000,
+            'offset': 0
+            }
+        });
+        const users = await response.json();
+        setTotalResults(users.length);
     }
     
     /**
@@ -118,8 +152,13 @@ const UserScreen = () => {
     useEffect(() => {
         getDataUser();
         getAllUsers();
+        
     }, []);
-    
+
+    useEffect(() => {
+        getTotalResults();
+    }, [allData]);
+
     /**
      * Assigns a name to the profile boolean value, with this is possible show on the screen the profile status.
      */
@@ -340,6 +379,14 @@ const UserScreen = () => {
         pic: false
     }
 
+    /**
+     * 
+     */
+
+    useEffect(() => {
+        getAllUsers();
+    }, [limit]);
+
     return (
         <>
             <DataManager active={closeNode} info={infoComponent} current={current} token={token}/>
@@ -368,7 +415,7 @@ const UserScreen = () => {
                 <>
                     {
 
-                        data.profile && <DataTable tableClass={"user-table-container"} user={allData} columns={columns} token={token} title_delete={"usuarios"}/>
+                        data.profile && <DataTable tableClass={"user-table-container"} user={allData} columns={columns} token={token} title_delete={"usuarios"} totalResults={totalResults}/>
                     }
                 </>
             </div>

@@ -138,11 +138,15 @@ const loginLimiter = rateLimit({
  */
 
 router.get(`${VERSION}/user`, validateToken, validateRole, (req, res) => {
-    const sortValue = req.rawHeaders[15];
+    const limitValue = parseInt(req.rawHeaders[17]);
+    const offsetValue = parseInt(req.rawHeaders[7]);
+    const sortValue = req.rawHeaders[19];
     const sortColumn = req.rawHeaders[9];
     User.findAll({
         attributes: {exclude: ['id', 'password']},
-        order: [[`${sortColumn}`, `${sortValue}`]]
+        order: [[`${sortColumn}`, `${sortValue}`]],
+        limit: limitValue,
+        offset: offsetValue
     })
     .then((data) => {
         res.json(data)

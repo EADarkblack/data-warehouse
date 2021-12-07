@@ -7,6 +7,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { DataContext } from '../../context/DataContext';
 import { DataTableContext } from '../../context/DataTableContext';
+import { LimitDataContext } from '../../context/LimitDataContext';
 import { authTypes } from '../../types/authTypes';
 import Button from '../Button/Button';
 
@@ -41,6 +42,12 @@ const DataManager = ({info, current, token}) => {
      */
     
     const {setAllData} = useContext(DataTableContext);
+
+    /**
+     * 
+     */
+
+    const {limit, setLimit} = useContext(LimitDataContext);
 
     /**
      * Allows close the "Data Manager" window on the app.
@@ -85,7 +92,9 @@ const DataManager = ({info, current, token}) => {
         const response = await fetch('http://localhost:4000/v1/user', {headers: {
             'Authorization': `Bearer ${token}`,
             'Sort': 'ASC',
-            'Column': 'id'
+            'Column': 'id',
+            'limit': limit,
+            'offset': 0
         }});
         const users = await response.json();
         setAllData(users);

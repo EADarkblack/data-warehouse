@@ -13,6 +13,7 @@ import { DataContext } from '../../context/DataContext';
 import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
 import { DataTableContext } from '../../context/DataTableContext';
+import { LimitDataContext } from '../../context/LimitDataContext';
 
 // Functions
 
@@ -47,6 +48,12 @@ const DataComponent = ({data, token, className, checkboxClass}) => {
      */
 
     const {setAllData} = useContext(DataTableContext);
+
+    /**
+     * 
+     */
+
+    const {limit, setLimit} = useContext(LimitDataContext);
 
     /**
      *  An object with all data for the "Data Manager" for every user data component.
@@ -109,7 +116,9 @@ const DataComponent = ({data, token, className, checkboxClass}) => {
         const response = await fetch('http://localhost:4000/v1/user', {headers: {
             'Authorization': `Bearer ${token}`,
             'Sort': 'ASC',
-            'Column': 'id'
+            'Column': 'id',
+            'limit': limit,
+            'offset': 0
         }});
         const users = await response.json();
         setAllData(users);
