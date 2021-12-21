@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 
 // Components
 
@@ -8,6 +8,7 @@ import { CheckboxContext } from '../../context/CheckboxContext';
 import { ConfirmationNodeContext } from '../../context/ConfirmationNodeContext';
 import { DataTableContext } from '../../context/DataTableContext';
 import { LimitDataContext } from '../../context/LimitDataContext';
+import { OffsetContext } from '../../context/OffsetContext';
 import Checkbox from '../Checkbox/Checkbox';
 import ConfirmationNode from '../ConfirmationNode/ConfirmationNode';
 import DataComponent from '../DataComponent/DataComponent';
@@ -27,44 +28,35 @@ const DataTable = ({user, columns, tableClass, token, title_delete, totalResults
     const [checkboxData, setCheckboxData] = useState([]);
 
     /**
-     * 
+     * Allows to display the confirmation modal.
      */
   
     const [confirmationNode, setConfirmationNode] = useState("node-bg no-active-node");
 
     /**
-     * 
+     * Sets the limit of data that can be render on the screen.
      */
 
     const {limit, setLimit} = useContext(LimitDataContext);
 
     /**
-     * 
+     * Gets an updated version of all data from the data base.
      */
 
     const {allData} = useContext(DataTableContext);
 
     /**
-     * 
+     * Allows to set the offset of data that can be render on the screen.
      */
 
-    let [offset, setOffset] = useState(0);
+    const {offset, setOffset} = useContext(OffsetContext);
 
     /**
-     * 
+     * A function that allows to close the confirmation modal.
      */
 
     const deleteSelectedData = () => {
         setConfirmationNode("node-bg");
-    }
-
-    /**
-     * 
-     */
-
-    const a = (text) => {
-        console.log(`${text} pana miguel!!!`);
-        console.log(offset);
     }
 
     return (
@@ -82,7 +74,7 @@ const DataTable = ({user, columns, tableClass, token, title_delete, totalResults
                 <div className="table-border">
                     <div className="title-row">
                         <div className="checkbox-container">
-                            <Checkbox data={user} checkboxClass={checkboxData.length != 0 ? 'checkbox-border block' : 'checkbox-border'}/>
+                            <Checkbox data={user} checkboxClass={checkboxData.length !== 0 ? 'checkbox-border block' : 'checkbox-border'}/>
                         </div>
                         {
                             columns.map((item) => (
@@ -113,13 +105,13 @@ const DataTable = ({user, columns, tableClass, token, title_delete, totalResults
                     <div className="pag-number">
                         <p>1 - {allData.length} de {totalResults} filas</p>
                         <div className="arrows">
-                            <i className="fas fa-chevron-left"  onClick={() =>  {
-                                setOffset(offset === 0 ? 0 : offset - limit);
-                                a("Adios");
+                            <i className={offset === 0 ? "fas fa-chevron-left no-active-btn" : "fas fa-chevron-left"}  onClick={() =>  {
+                                setOffset(Math.sign(offset - limit) === -1 ? 0 : offset - limit);
                             }}></i>
-                            <i className="fas fa-chevron-right" onClick={() => {
-                                setOffset(totalResults < offset ? offset + limit : limit);
-                                a("Hola");
+                            <i className={allData.length < offset ? "fas fa-chevron-right no-active-btn" : "fas fa-chevron-right"} onClick={() => {
+                                if (allData.length !== 0) {
+                                    setOffset(allData.length < totalResults ? offset + limit : limit - offset);
+                                }
                             }}></i>
                         </div>
                     </div>

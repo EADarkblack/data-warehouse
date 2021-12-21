@@ -10,27 +10,27 @@
 }
 
 .select-opt .select-total {
-  width: 7rem;
   background-color: #c0e0fd;
-  font-size: 0.75rem;
-  text-align: center;
-  color: #0683f9;
-  padding: 0.2rem 0;
-  font-family: "Open Sans", sans-serif;
   border-radius: 0.1rem;
+  color: #0683f9;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.75rem;
+  padding: 0.2rem 0;
+  text-align: center;
+  width: 7rem;
 }
 
 .select-opt .delete-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-family: "Open Sans", sans-serif;
   color: #1d72c2;
-  font-size: 0.9rem;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
 }
 
 .select-opt .delete-container .fa-trash {
@@ -125,9 +125,9 @@
   color: dimgray;
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
   margin: 0 0.41rem 0 0.95rem;
   outline: none;
-  font-size: 0.9rem;
 }
 
 .pag-menu .pag-controller .fa-chevron-down {
@@ -160,5 +160,10 @@
 
 .pag-menu .pag-number .fa-chevron-right {
   cursor: pointer;
+}
+
+.pag-menu .pag-number .no-active-btn {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 /*# sourceMappingURL=DataTable.css.map */

@@ -13,10 +13,6 @@ const rateLimit = require('express-rate-limit');
 const user = require('./models/user');
 const User = user(sequelize, Sequelize);
 
-/* User.sync({force: false}).then(() => {
-    console.log("Tablas creadas")
-}); */
-
 // Middlewares
 
 /**
@@ -292,6 +288,7 @@ router.put(`${VERSION}/user/:id`, validateToken, validateIdRole, (req, res) => {
 
 /**
  * Allows delete any user on the database, for this path any role can perform this action, although only admin user can delete others users from the database using his/her respective id.
+ * 
  * admin's uuid original database: '14909911-ba4c-4df4-9fb1-76fa72a670e4'
  */
 

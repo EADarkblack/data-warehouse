@@ -14,6 +14,7 @@ import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
 import { DataTableContext } from '../../context/DataTableContext';
 import { LimitDataContext } from '../../context/LimitDataContext';
+import { OffsetContext } from '../../context/OffsetContext';
 
 // Styles
 
@@ -57,7 +58,7 @@ const UserScreen = () => {
      * Takes from the context the current state for the "Data Manager" component.
      */
 
-    const {closeNode, setCloseNode} = useContext(DataContext);
+    const {setCloseNode} = useContext(DataContext);
 
     /**
      * Takes from the context the data type handler's current state for the "Data Manager".
@@ -72,25 +73,31 @@ const UserScreen = () => {
     const {infoComponent, setInfoComponent} = useContext(InfoComponentContext);
 
     /**
-     * 
+     * Sets the limit of data that can be render on the screen.
      */
 
-    const {limit, useLimit} = useContext(LimitDataContext);
+    const {limit} = useContext(LimitDataContext);
 
     /**
-     * 
+     * Allows to set the offset of data that can be render on the screen.
+     */
+
+    const {offset} = useContext(OffsetContext);
+
+    /**
+     * Allows to set the sort type of the data that can be render on the screen.
      */
 
     const [sort, setSort] = useState("ASC");
 
     /**
-     * 
+     * Allows to set the sort field of the data that can be render on the screen.
      */
 
     const [column, setColumn] = useState("id");
 
     /**
-     * 
+     * Allows to get and set the total number of data received from the server.
      */
 
     const [totalResults, setTotalResults] = useState(0);
@@ -108,7 +115,7 @@ const UserScreen = () => {
     }
     
     /**
-     * Gets all users registered on the app.
+     * Gets all users registered on the app depending of the limit and offset number.
      */
 
     const getAllUsers = async() => {
@@ -118,16 +125,15 @@ const UserScreen = () => {
             'Sort': sort,
             'Column': column,
             'limit': limit,
-            'offset': 0
+            'offset': offset
             }
         });
         const users = await response.json();
         setAllData(users);
     }
 
-        
     /**
-     * Gets all users registered on the app.
+     * Gets all users registered on the app to set the total number of user registereds on the app.
      */
 
      const getTotalResults = async() => {
@@ -152,8 +158,11 @@ const UserScreen = () => {
     useEffect(() => {
         getDataUser();
         getAllUsers();
-        
     }, []);
+
+    /**
+     * An useEffect hook that allows to execute the getTotalResults function when allData change.
+     */
 
     useEffect(() => {
         getTotalResults();
@@ -219,7 +228,7 @@ const UserScreen = () => {
     
     const createUser = () => {
         setInfoComponent(createUserObj);
-        setCloseNode("data-manager-bg active");
+        setCloseNode("data-manager-bg active-modal");
         setCurrent("new");
     }
     
@@ -229,7 +238,7 @@ const UserScreen = () => {
     
     const editOwner = () => {
         setInfoComponent(editUserObj);
-        setCloseNode("data-manager-bg active");
+        setCloseNode("data-manager-bg active-modal");
         setCurrent("edit");
     }
 
@@ -380,16 +389,16 @@ const UserScreen = () => {
     }
 
     /**
-     * 
+     * An useEffect hook that allows to execute the getAllUsers function when the limit and offset change.
      */
 
     useEffect(() => {
         getAllUsers();
-    }, [limit]);
+    }, [limit, offset]);
 
     return (
         <>
-            <DataManager active={closeNode} info={infoComponent} current={current} token={token}/>
+            <DataManager info={infoComponent} current={current} token={token}/>
             <div className="user-section-container">
                 <div className="title">
                     Bienvenido/a {data.name}

@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Redirect} from 'react-router-dom';
 
 // Components
@@ -10,9 +10,10 @@ import { DataContext } from '../context/DataContext';
 import { DataTableContext } from '../context/DataTableContext';
 import { InfoComponentContext } from '../context/InfoComponentContext';
 import { LimitDataContext } from '../context/LimitDataContext';
+import { OffsetContext } from '../context/OffsetContext';
 import CompanyScreen from '../pages/CompanyScreen';
 import ContactsScreen from '../pages/ContactsScreen';
-import LocationScreen from '../pages/LocationScreen';
+import LocationScreen from '../pages/LocationScreen/LocationScreen';
 import UserScreen from '../pages/UserScreen/UserScreen';
 
 // Functions
@@ -101,10 +102,16 @@ const AppRouter = () => {
     const [allData, setAllData] = useState([]);
 
     /**
-     * 
+     * Sets the limit of data that can be render on the screen.
      */
 
     const [limit, setLimit] = useState(10);
+
+    /**
+     * Allows to set the offset of data that can be render on the screen.
+     */
+
+    const [offset, setOffset] = useState(0);
 
     return (
         <>
@@ -114,10 +121,12 @@ const AppRouter = () => {
                 <CurrentDataManagerContext.Provider value={{current, setCurrent}}>
                 <DataTableContext.Provider value={{allData, setAllData}}>
                 <LimitDataContext.Provider value={{limit, setLimit}}>
+                <OffsetContext.Provider value={{offset, setOffset}}>
                     <Route exact path="/contact" component={ContactsScreen} />
                     <Route exact path="/company" component={CompanyScreen} />
                     <Route exact path="/user" component={UserScreen} />
                     <Route exact path="/location" component={LocationScreen} />
+                </OffsetContext.Provider>
                 </LimitDataContext.Provider>
                 </DataTableContext.Provider>
                 </CurrentDataManagerContext.Provider>

@@ -43,18 +43,18 @@
             display: none;
         }
         .fa-trash {
-            display: inline-block;
-            cursor: pointer;
             color: darken($lineColor, $amount: 50);
+            cursor: pointer;
+            display: inline-block;
         }
         .fa-trash:hover {
             color: darken($lineColor, $amount: 100);
         }
         .fa-pen {
-            margin-left: 1rem;
-            display: inline-block;
-            cursor: pointer;
             color: darken($lineColor, $amount: 50);
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 1rem;
         }
         .fa-pen:hover {
             color: darken($lineColor, $amount: 100);

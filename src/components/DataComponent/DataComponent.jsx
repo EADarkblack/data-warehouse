@@ -2,10 +2,6 @@
 
 import React, { useContext } from 'react';
 
-// Styles
-
-import './DataComponent.css';
-
 // Components
 
 import Checkbox from '../Checkbox/Checkbox';
@@ -14,6 +10,10 @@ import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
 import { DataTableContext } from '../../context/DataTableContext';
 import { LimitDataContext } from '../../context/LimitDataContext';
+
+// Styles
+
+import './DataComponent.css';
 
 // Functions
 
@@ -50,10 +50,10 @@ const DataComponent = ({data, token, className, checkboxClass}) => {
     const {setAllData} = useContext(DataTableContext);
 
     /**
-     * 
+     * Sets the limit of data that can be render on the screen.
      */
 
-    const {limit, setLimit} = useContext(LimitDataContext);
+    const {limit} = useContext(LimitDataContext);
 
     /**
      *  An object with all data for the "Data Manager" for every user data component.
@@ -153,7 +153,7 @@ const DataComponent = ({data, token, className, checkboxClass}) => {
     const editCurrentUser = () => {
         setCurrent("edit-user");
         setInfoComponent(editUserObj);
-        setCloseNode("data-manager-bg active");
+        setCloseNode("data-manager-bg active-modal");
     }
     
     return (

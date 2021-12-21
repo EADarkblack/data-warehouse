@@ -1,85 +1,88 @@
 @import "../../sass/variables";
 
 .login-screen {
-    background-color: #f7f7f7;
-    background-image: url('../../assets/background-login.png');
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-color: #f7f7f7;
+  background-image: url("../../assets/background-login.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  height: 93.5vh;
+  justify-content: center;
+  .login-container {
+    align-items: center;
+    background-color: $secondColor;
+    border: 1px solid $mainColor;
+    border-radius: 2rem;
+    box-shadow: 2px 4px 0px 0px $mainColor;
     display: flex;
-    height: 93.5vh;
+    flex-direction: column;
+    height: 30rem;
     justify-content: center;
-    .login-container {
-        align-items: center;
-        background-color: $secondColor;
-        border: 1px solid $mainColor;
-        border-radius: 2rem;
-        box-shadow: 2px 4px 0px 0px $mainColor;
-        display: flex;
-        flex-direction: column;
-        height: 30rem;
-        justify-content: center;
-        margin-top: 12rem;
-        position: relative;
-        width: 30rem;
-        .login-text {
-            color: $thirdColor;
-            font-family: $mainFont;
-            font-size: 3rem;
-            margin-bottom: 4rem;
-            position: absolute;
-            top: 3rem;
-        }
-        .input-container {
-            border: 1px solid $mainColor;
-            border-radius: 1.5rem;
-            cursor: text;
-            height: 3rem;
-            margin-bottom: 1rem;
-            width: 80%;
-            .login-input {
-                border: 0;
-                font-family: $mainFont;
-                font-size: 1rem;
-                height: 2rem;
-                margin: 0.4rem 2rem;
-                outline: none;
-                width: 20rem;
-            }
-        }
-        .error-msg {
-            color: $fourthColor;
-            display: none;
-            font-family: $mainFont;
-            font-size: 0.9rem;
-            margin: 0 3rem;
-        }
-        .active-msg {
-            display: unset;
-        }
-        hr {
-            margin-top: 2rem;
-            opacity: 0.5;
-            width: 60%;
-        }
-        .submit-btn {
-            background-color: $mainColor;
-            border: 1px solid $mainColor;
-            border-radius: 0.5rem;
-            color: $secondColor;
-            cursor: pointer;
-            font-family: $mainFont;
-            font-size: 1rem;
-            font-weight: bold;
-            height: 3rem;
-            margin-top: 3rem;
-            outline: none;
-            position: absolute;
-            top: 20rem;
-            width: 50%;
-        }
-        .submit-btn:hover {
-            background-color: $secondColor;
-            color: $mainColor;
-        }
+    margin-top: 12rem;
+    position: relative;
+    width: 30rem;
+    .login-text {
+      color: $thirdColor;
+      font-family: $mainFont;
+      font-size: 3rem;
+      margin-bottom: 4rem;
+      position: absolute;
+      top: 3rem;
     }
+    .input-container {
+      border: 1px solid $mainColor;
+      border-radius: 1.5rem;
+      cursor: text;
+      height: 3rem;
+      margin-bottom: 1rem;
+      width: 80%;
+      .login-input {
+        border: 0;
+        font-family: $mainFont;
+        font-size: 1rem;
+        height: 2rem;
+        margin: 0.4rem 2rem;
+        outline: none;
+        width: 20rem;
+      }
+    }
+    .error-msg {
+      color: $fourthColor;
+      display: none;
+      font-family: $mainFont;
+      font-size: 0.9rem;
+      margin: 0 3rem;
+      position: absolute;
+      right: 21%;
+      top: 18rem;
+    }
+    .active-msg {
+      display: unset;
+    }
+    hr {
+      margin-top: 2rem;
+      opacity: 0.5;
+      width: 60%;
+    }
+    .submit-btn {
+      background-color: $mainColor;
+      border: 1px solid $mainColor;
+      border-radius: 0.5rem;
+      color: $secondColor;
+      cursor: pointer;
+      font-family: $mainFont;
+      font-size: 1rem;
+      font-weight: bold;
+      height: 3rem;
+      margin-top: 3rem;
+      outline: none;
+      position: absolute;
+      top: 20rem;
+      width: 50%;
+    }
+    .submit-btn:hover {
+      background-color: $secondColor;
+      color: $mainColor;
+    }
+  }
 }

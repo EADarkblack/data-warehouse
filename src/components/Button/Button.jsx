@@ -9,7 +9,7 @@ const Button = ({dataBtn}) => {
         <>
             {
                 dataBtn.map((item) => (
-                    <button onClick={item.func} className={item.class} key={item.text}>{item.text}</button>
+                    <button onClick={item.func} className={item.class} key={item.text} type={item.type}>{item.text}</button>
                 ))
             }
         </>

@@ -63,9 +63,9 @@
 }
 
 .data-container:hover .data-box .fa-trash {
-  display: inline-block;
-  cursor: pointer;
   color: dimgray;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .data-container:hover .data-box .fa-trash:hover {
@@ -73,10 +73,10 @@
 }
 
 .data-container:hover .data-box .fa-pen {
-  margin-left: 1rem;
-  display: inline-block;
-  cursor: pointer;
   color: dimgray;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 1rem;
 }
 
 .data-container:hover .data-box .fa-pen:hover {

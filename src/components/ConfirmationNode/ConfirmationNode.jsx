@@ -1,6 +1,9 @@
 // Libraries
 
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
+
+// Components
+
 import { CheckboxContext } from '../../context/CheckboxContext';
 import { ConfirmationNodeContext } from '../../context/ConfirmationNodeContext';
 import { DataTableContext } from '../../context/DataTableContext';
@@ -10,28 +13,30 @@ import Button from '../Button/Button';
 
 import './ConfirmationNode.css';
 
+// Functions
+
 const ConfirmationNode = ({token}) => {
 
     /**
-     * 
+     * Allows to show the confirmation modal
      */
 
     const {confirmationNode, setConfirmationNode} = useContext(ConfirmationNodeContext);
 
     /**
-     * 
+     * Gets all data from checkbox context.
      */
 
     const {checkboxData, setCheckboxData} = useContext(CheckboxContext);
 
     /**
-     * 
+     * Sets an updated version of all data from the data base.
      */
 
-    const {allData, setAllData} = useContext(DataTableContext);
+    const {setAllData} = useContext(DataTableContext);
 
     /**
-     * 
+     * A function that allows to close the confirmation modal.
      */
 
     const cancelBtn = () => {
@@ -46,7 +51,9 @@ const ConfirmationNode = ({token}) => {
         const response = await fetch('http://localhost:4000/v1/user', {headers: {
             'Authorization': `Bearer ${token}`,
             'Sort': 'ASC',
-            'Column': 'id'
+            'Column': 'id',
+            'limit': 1000,
+            'offset': 0
         }});
         const users = await response.json();
         setAllData(users);
@@ -64,7 +71,7 @@ const ConfirmationNode = ({token}) => {
     }
 
     /**
-     * 
+     * This function allows to delete all the data selected from the data table.
      */
 
     const deleteBtn = () => {
@@ -78,7 +85,7 @@ const ConfirmationNode = ({token}) => {
     }
 
     /**
-     * 
+     * An object with all the data to be displayed on the buttons of the confirmation modal.
      */
 
     const actionBtn = [

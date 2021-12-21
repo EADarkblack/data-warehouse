@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+.component-container {
+  margin: 2rem 8rem 2rem 8rem;
+}
+
+.component-container .region-container {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #74b1ea;
+  border-radius: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.component-container .region-container .deploy-icon {
+  color: #1d72c2;
+  cursor: pointer;
+  font-size: 2.5rem;
+  margin-left: 2rem;
+}
+
+.component-container .region-container .region {
+  color: #1d72c2;
+  font-size: 1.5rem;
+  margin: 0 2rem;
+}
+
+.component-container .region-container .region-buttons {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.5rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 0 0 2rem;
+  position: absolute;
+  right: 0;
+}
+
+.component-container .result-area {
+  background-color: #ffffff;
+  border: 1px solid #74b1ea;
+  border-radius: 0.5rem;
+  display: block;
+  min-height: 8rem;
+  padding-top: 2rem;
+  position: relative;
+  top: -2rem;
+  width: 99.85%;
+}
+
+.component-container .no-active {
+  display: none;
+}
+
+.component-container .region-container:hover {
+  -webkit-box-shadow: #328ce0 3px 3px 5px;
+          box-shadow: #328ce0 3px 3px 5px;
+}
+
+.edit-region-btn {
+  color: #74b1ea;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.edit-region-btn:hover {
+  color: #1d72c2;
+}
+
+.delete-region-btn {
+  color: #ff5f7b;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.delete-region-btn:hover {
+  color: #de0028;
+}
+
+.add-country-btn {
+  color: #74b1ea;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.add-country-btn:hover {
+  color: #1d72c2;
+}
+/*# sourceMappingURL=LocationComponent.css.map */

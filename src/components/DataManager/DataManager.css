@@ -12,7 +12,7 @@
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 5;
 }
 
 .data-manager-bg .data-manager-container {
@@ -60,7 +60,7 @@
   top: 31.55rem;
 }
 
-.active {
+.active-modal {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -147,7 +147,7 @@
 .data-input {
   font-family: "Open Sans", sans-serif;
   margin-left: 1rem;
-  width: 15%;
+  width: 100%;
 }
 
 .data-input .title-input {
@@ -199,14 +199,14 @@
 }
 
 .error-msg {
+  color: #de0028;
+  display: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.8rem;
   margin: 0 1.88rem 1.88rem 0;
   position: absolute;
   right: 0;
   top: 13.5rem;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.8rem;
-  color: #de0028;
-  display: none;
 }
 
 .active-msg {

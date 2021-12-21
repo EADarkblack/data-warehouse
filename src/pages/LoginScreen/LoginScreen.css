@@ -72,6 +72,9 @@
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
   margin: 0 3rem;
+  position: absolute;
+  right: 21%;
+  top: 18rem;
 }
 
 .login-screen .login-container .active-msg {

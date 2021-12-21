@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+.button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 2rem 2rem 4rem 0;
+}
+
+.button-container .add-region-btn {
+  background-color: #1d72c2;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  margin-right: 0.53rem;
+  width: 10.81rem;
+}
+
+.button-container .add-region-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #1d72c2;
+  color: #1d72c2;
+}
+/*# sourceMappingURL=LocationScreen.css.map */
