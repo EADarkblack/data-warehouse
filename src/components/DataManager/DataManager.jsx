@@ -552,6 +552,9 @@ const DataManager = ({info, current, token}) => {
                         ))
                     }
                 </div>
+                <div>
+                    Hola
+                </div>
                 <div className={error ? "error-msg active-msg" : "error-msg"}>{errorMsg}</div>
                 <div className="btn-container">
                     <Button dataBtn={activeBtn}/>

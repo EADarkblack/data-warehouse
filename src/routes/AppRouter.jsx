@@ -11,7 +11,7 @@ import { DataTableContext } from '../context/DataTableContext';
 import { InfoComponentContext } from '../context/InfoComponentContext';
 import { LimitDataContext } from '../context/LimitDataContext';
 import { OffsetContext } from '../context/OffsetContext';
-import CompanyScreen from '../pages/CompanyScreen';
+import CompanyScreen from '../pages/CompanyScreen/CompanyScreen';
 import ContactsScreen from '../pages/ContactsScreen';
 import LocationScreen from '../pages/LocationScreen/LocationScreen';
 import UserScreen from '../pages/UserScreen/UserScreen';
