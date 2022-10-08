@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 // Components
 
@@ -10,6 +10,7 @@ import { InfoComponentContext } from '../../context/InfoComponentContext';
 import { CurrentDataManagerContext } from '../../context/CurrentDataManagerContext';
 import { DataTableContext } from '../../context/DataTableContext';
 import { LimitDataContext } from '../../context/LimitDataContext';
+import { DataInputsContext } from '../../context/DataInputsContext';
 
 // Styles
 
@@ -17,49 +18,216 @@ import './DataComponent.css';
 
 // Functions
 
-const DataComponent = ({data, token, className, checkboxClass}) => {
+const DataComponent = ({ data, token, className, checkboxClass, page }) => {
 
     /**
-     * Takes "profile" and assign a value that can be render on the screen.
+     * States and Contexts to handle the data.
      */
+
+    const { setCloseNode } = useContext(DataContext);
+
+    const { setInfoComponent } = useContext(InfoComponentContext);
+
+    const { setCurrent } = useContext(CurrentDataManagerContext);
+
+    const { setAllData } = useContext(DataTableContext);
+
+    const { limit } = useContext(LimitDataContext);
+
+    const [info, setInfo] = useState([]);
+
+    const { setUuid } = useContext(DataInputsContext);
 
     const profile = data.profile ? "Administrador" : "Básico";
 
     /**
-     *  Takes from the context the current state for the "Data Manager" component.
+     * Get all regions
      */
 
-    const {setCloseNode} = useContext(DataContext);
+    const getAllRegions = async () => {
+        const response = await fetch(`http://localhost:4000/v1/region/${data.region.uuid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const region = await response.json();
+        let obj = {
+            name: region.name,
+            value: region.uuid
+        }
+        editCompanyObj.moreInfoAddCompany[0].option.push(obj);
+    }
 
     /**
-     * Takes from the context the object's current state that allows show the respective input options on the "Data Manager" component.
+     * Get a specific country from a region by its uuid
      */
 
-    const {setInfoComponent} = useContext(InfoComponentContext);
+    const getCountryFromRegion = async () => {
+        const response = await fetch(`http://localhost:4000/v1/country/${data.country.uuid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const country = await response.json();
+        let obj = {
+            name: country.name,
+            value: country.uuid
+        }
+        editCompanyObj.moreInfoAddCompany[1].option.push(obj);
+    }
 
     /**
-     * Takes from the context the data type handler's current state for the "Data Manager".
+     * Get a specific city from a country by its uuid
      */
 
-    const {setCurrent} = useContext(CurrentDataManagerContext);
+    const getCityFromCountry = async () => {
+        const response = await fetch(`http://localhost:4000/v1/city/${data.city.uuid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const city = await response.json();
+        let obj = {
+            name: city.name,
+            value: city.uuid
+        }
+        editCompanyObj.moreInfoAddCompany[2].option.push(obj);
+    }
 
     /**
-     * Sets an updated version of all data from the data base.
+     * Gets from the database the current version of all data.
      */
 
-    const {setAllData} = useContext(DataTableContext);
+    const getRequestUser = async () => {
+        const response = await fetch('http://localhost:4000/v1/user', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Sort': 'ASC',
+                'Column': 'id',
+                'limit': limit,
+                'offset': 0
+            }
+        });
+        const users = await response.json();
+        setAllData(users);
+    }
 
     /**
-     * Sets the limit of data that can be render on the screen.
+     * Get all companies from database
      */
 
-    const {limit} = useContext(LimitDataContext);
+    const getAllCompanies = async () => {
+        const response = await fetch('http://localhost:4000/v1/company', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Sort': 'ASC',
+                'Column': 'id',
+                'limit': limit,
+                'offset': 0
+            }
+        });
+        const companies = await response.json();
+        setAllData(companies);
+    }
 
     /**
-     *  An object with all data for the "Data Manager" for every user data component.
+     * The delete request for the data from the data table.
      */
-        
-     const editUserObj = {
+
+    const deleteData = async () => {
+        const { uuid } = data;
+        const requestOpt = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        }
+        const response = await fetch(`http://localhost:4000/v1/user/${uuid}`, requestOpt);
+        const dataRes = await response.json();
+        dataRes && getRequestUser();
+    }
+
+    /**
+     * Delete company from the database
+     */
+
+    const deleteCompany = async () => {
+        const { uuid } = data;
+        const requestOpt = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        }
+        const response = await fetch(`http://localhost:4000/v1/company/${uuid}`, requestOpt);
+        const dataRes = await response.json();
+        dataRes && getAllCompanies();
+    }
+
+    /**
+     * Allows modify the user selected by the admin user. this func set all data to their respective context.
+     */
+
+    const editCurrentUser = () => {
+        setCurrent("edit-user");
+        setInfoComponent(editUserObj);
+        setCloseNode("data-manager-bg active-modal");
+    }
+
+    /**
+     * Set the data used by the "edit mode" - change some states on the global states.
+     */
+
+    const editCurrentCompany = () => {
+        setCurrent("edit-company");
+        setInfoComponent(editCompanyObj);
+        setUuid(locationDataObj);
+        setCloseNode("data-manager-bg active-modal");
+    }
+
+    /**
+     * Clear all location's inputs to edit them.
+     */
+
+    const clearMoreInfoInput = () => {
+        setUuid({});
+        delete editCompanyObj.moreInfoAddCompany;
+    }
+
+    /**
+     * Object used to show the data in the "datatable component"
+     */
+
+    const userDataObj = [
+        {
+            data: data.name,
+            secondary_data: data.last_name
+        },
+        {
+            data: data.email
+        },
+        {
+            data: profile
+        }
+    ]
+
+    const companyDataObj = [
+        {
+            data: data.name
+        },
+        {
+            data: data.country && data.country.name
+        },
+        {
+            data: data.address
+        }
+    ]
+
+    /**
+     * Object used to show the information in the modal component.
+     */
+
+    const editUserObj = {
         title_component: "Editar usuario",
         data_fields: [
             {
@@ -107,73 +275,156 @@ const DataComponent = ({data, token, className, checkboxClass}) => {
         owner: data,
         pic: false
     }
-    
-    /**
-     * Gets from the database the current version of all data.
-     */
-    
-     const getRequestUser = async() => {
-        const response = await fetch('http://localhost:4000/v1/user', {headers: {
-            'Authorization': `Bearer ${token}`,
-            'Sort': 'ASC',
-            'Column': 'id',
-            'limit': limit,
-            'offset': 0
-        }});
-        const users = await response.json();
-        setAllData(users);
+
+    const editCompanyObj = {
+        title_component: "Editar compañia",
+        data_fields: [
+            {
+                title: "Nombre",
+                require: true,
+                type: "text",
+                name: "name",
+                owner_data: data.name
+            },
+            {
+                title: "Correo Electrónico",
+                require: true,
+                type: "email",
+                name: "email",
+                owner_data: data.email
+            },
+            {
+                title: "Telefono",
+                require: true,
+                type: "text",
+                name: "phone",
+                owner_data: data.phone
+            }
+        ],
+        owner: data,
+        pic: false,
+        moreInfoAddCompany: [
+            {
+                title: "Región",
+                type: "select",
+                name: "region",
+                option: [],
+                require: true
+            },
+            {
+                title: "País",
+                type: "select",
+                name: "country",
+                option: [],
+                require: true
+            },
+            {
+                title: "Ciudad",
+                type: "select",
+                name: "city",
+                option: [],
+                require: true
+            },
+            {
+                title: "Dirección",
+                type: "text",
+                value: data.address,
+                disable: true,
+                require: true
+            },
+            {
+                btn: [
+                    {
+                        class: "edit-more-info",
+                        text: '<i class="fas fa-pen more-info-btn"></i>Editar',
+                        type: "button",
+                        func: () => {
+                            clearMoreInfoInput();
+                        }
+                    }
+                ]
+
+            }
+        ]
     }
 
     /**
-     * The request options for the data delete request.
+     * Function to get the company's location in the "edit mode".
      */
 
-    const requestOpt = {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`,
+    const getRequests = () => {
+        getAllRegions();
+        getCountryFromRegion();
+        getCityFromCountry();
+    }
+
+    /**
+     * Object used to save every uuid and the address of the company
+     */
+
+    const locationDataObj = {
+        region: data.region && data.region.uuid,
+        country: data.country && data.country.uuid,
+        city: data.city && data.city.uuid,
+        address: data.address
+    }
+
+    /**
+     * Function to handle all the delete's functions
+     */
+
+    const handleDeleteBtn = () => {
+        if (page === "usuarios") {
+            deleteData();
+        } else if (page === "compañias") {
+            deleteCompany();
         }
     }
 
     /**
-     * The delete request for the data from the data table.
+     * Function to handle all the edit's functions
      */
 
-    const deleteData = async() => {
-        const {uuid} = data;
-        const response = await fetch(`http://localhost:4000/v1/user/${uuid}`, requestOpt);
-        const dataRes = await response.json();
-        dataRes && getRequestUser();
+    const handleEditBtn = () => {
+        if (page === "usuarios") {
+            editCurrentUser();
+        } else if (page === "compañias") {
+            editCurrentCompany();
+            getRequests();
+        }
     }
 
     /**
-     * Allows modify the user selected by the admin user. this func set all data to their respective context.
+     * UseEffect used to get the new information from the database every time that "data" changes.
      */
 
-    const editCurrentUser = () => {
-        setCurrent("edit-user");
-        setInfoComponent(editUserObj);
-        setCloseNode("data-manager-bg active-modal");
-    }
-    
+    useEffect(() => {
+        if (page === "usuarios") {
+            setInfo(userDataObj);
+        } else if (page === "compañias") {
+            setInfo(companyDataObj);
+            getCountryFromRegion();
+        }
+    }, [data])
+
     return (
         <div className={className}>
             <div className="checkbox-container">
-                <Checkbox uuid={data.uuid} checkboxClass={checkboxClass}/>
+                <Checkbox uuid={data.uuid} checkboxClass={checkboxClass} />
             </div>
-            <div className="data-box">
-                {data.name} {data.last_name}
-            </div>
-            <div className="data-box">
-                {data.email}
-            </div>
-            <div className="data-box">
-                {profile}
-            </div>
+            {
+                info.map((item, i) => {
+                    return (
+                        <div className="data-box" key={i}>
+                            {item.data} {item.secondary_data ? item.secondary_data : ""}
+                        </div>
+                    )
+                })
+            }
             <div className="data-box">
                 <i className="fas fa-ellipsis-h"></i>
-                <i onClick={deleteData} className="fas fa-trash"></i>
-                <i onClick={editCurrentUser}  className="fas fa-pen"></i>
+                <i onClick={handleDeleteBtn} className="fas fa-trash"></i>
+                <i onClick={handleEditBtn} className="fas fa-pen"></i>
             </div>
         </div>
     )

@@ -16,37 +16,21 @@ import './LocationComponent.css';
 
 // Functions
 
-const LocationComponent = ({region, token}) => {
+const LocationComponent = ({ region, token }) => {
 
     /**
-     * This state allows to deploy the regions and show all data inside the respective region.
+     * States and Contexts to handle the data.
      **/
 
     const [deployRegion, setDeployRegion] = useState(false);
 
-    /**
-     * Takes from the context the current state for the "Data Manager" component.
-     */
+    const { setCloseNode } = useContext(DataContext);
 
-    const {setCloseNode} = useContext(DataContext);
+    const { setInfoComponent } = useContext(InfoComponentContext);
 
-    /**
-     * Takes from the context the object's current state that allows show the respective input options on the "Data Manager" component.
-     */
+    const { setCurrent } = useContext(CurrentDataManagerContext);
 
-    const {setInfoComponent} = useContext(InfoComponentContext);
-
-    /**
-     * Takes from the context the data type handler's current state for the "Data Manager".
-     */
-
-    const {setCurrent} = useContext(CurrentDataManagerContext);
-
-    /**
-     * Sets an updated version of all data from the data base.
-     */
-
-    const {setAllData} = useContext(DataTableContext);
+    const { setAllData } = useContext(DataTableContext);
 
     /**
      * An object with all data for the "Data Manager" for every region edit modal.
@@ -66,12 +50,12 @@ const LocationComponent = ({region, token}) => {
         owner: region,
         pic: false
     }
-    
+
     /**
      * An object with all data for the "Data Manager" for the add region modal.
      */
-    
-     const addCountryObj = {
+
+    const addCountryObj = {
         title_component: "Nuevo país",
         data_fields: [
             {
@@ -95,36 +79,25 @@ const LocationComponent = ({region, token}) => {
         setInfoComponent(editRegionObj);
         setCloseNode("data-manager-bg active-modal");
     }
-    
+
     /**
      * A function that allows to set the current data type handler's state for the "Data Manager" to country add mode.
      */
 
-     const addCountry = () => {
+    const addCountry = () => {
         setCurrent("new-country");
         setInfoComponent(addCountryObj);
         setCloseNode("data-manager-bg active-modal");
     }
-    
-    /**
-     * The request options for the data delete request.
-     */
 
-     const requestOpt = {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    }
-        
     /**
      * Gets from the database the current version of all regions.
      */
 
-    const getAllRegions = async() => {
+    const getAllRegions = async () => {
         const response = await fetch('http://localhost:4000/v1/region', {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         });
         const regions = await response.json();
@@ -135,7 +108,13 @@ const LocationComponent = ({region, token}) => {
      * The delete request for the data from the data table.
      */
 
-    const deleteRegion = async() => {
+    const deleteRegion = async () => {
+        const requestOpt = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        }
         const response = await fetch(`http://localhost:4000/v1/region/${region.uuid}`, requestOpt);
         const dataRes = await response.json();
         dataRes && getAllRegions();

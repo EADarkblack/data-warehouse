@@ -4,40 +4,24 @@
   background-image: url("../../assets/background-login.png");
   background-size: cover;
   background-repeat: no-repeat;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 93.5vh;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
-
 .login-screen .login-container {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: #ffffff;
   border: 1px solid #1d72c2;
   border-radius: 2rem;
-  -webkit-box-shadow: 2px 4px 0px 0px #1d72c2;
-          box-shadow: 2px 4px 0px 0px #1d72c2;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  box-shadow: 2px 4px 0px 0px #1d72c2;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   height: 30rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   margin-top: 12rem;
   position: relative;
   width: 30rem;
 }
-
 .login-screen .login-container .login-text {
   color: #000000;
   font-family: "Open Sans", sans-serif;
@@ -46,7 +30,6 @@
   position: absolute;
   top: 3rem;
 }
-
 .login-screen .login-container .input-container {
   border: 1px solid #1d72c2;
   border-radius: 1.5rem;
@@ -55,7 +38,6 @@
   margin-bottom: 1rem;
   width: 80%;
 }
-
 .login-screen .login-container .input-container .login-input {
   border: 0;
   font-family: "Open Sans", sans-serif;
@@ -65,7 +47,6 @@
   outline: none;
   width: 20rem;
 }
-
 .login-screen .login-container .error-msg {
   color: #de0028;
   display: none;
@@ -76,17 +57,14 @@
   right: 21%;
   top: 18rem;
 }
-
 .login-screen .login-container .active-msg {
   display: unset;
 }
-
 .login-screen .login-container hr {
   margin-top: 2rem;
   opacity: 0.5;
   width: 60%;
 }
-
 .login-screen .login-container .submit-btn {
   background-color: #1d72c2;
   border: 1px solid #1d72c2;
@@ -103,9 +81,7 @@
   top: 20rem;
   width: 50%;
 }
-
 .login-screen .login-container .submit-btn:hover {
   background-color: #ffffff;
   color: #1d72c2;
-}
-/*# sourceMappingURL=LoginScreen.css.map */
+}/*# sourceMappingURL=LoginScreen.css.map */

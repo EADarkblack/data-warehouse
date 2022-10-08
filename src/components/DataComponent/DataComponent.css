@@ -1,31 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .data-container {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
   height: 3.5rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   padding: 0 1.09rem 0 1.16rem;
 }
-
 .data-container .checkbox-container {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   margin: 0 1rem 1rem 0;
 }
-
 .data-container .data-box {
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
@@ -33,22 +19,18 @@
   padding-left: 1.04rem;
   width: 100%;
 }
-
 .data-container .data-box .fa-trash {
   display: none;
 }
-
 .data-container .data-box .fa-pen {
   display: none;
 }
-
 .data-container .data-box:nth-last-child(1) {
   padding-left: 0;
   padding-right: 1.04rem;
   text-align: center;
   width: 25%;
 }
-
 .data-container .data-box:nth-last-child(1) .fa-ellipsis-h {
   color: black;
   cursor: pointer;
@@ -57,33 +39,27 @@
 .data-container:hover {
   background-color: #e8e8e8;
 }
-
 .data-container:hover .data-box .fa-ellipsis-h {
   display: none;
 }
-
 .data-container:hover .data-box .fa-trash {
   color: dimgray;
   cursor: pointer;
   display: inline-block;
 }
-
 .data-container:hover .data-box .fa-trash:hover {
   color: black;
 }
-
 .data-container:hover .data-box .fa-pen {
   color: dimgray;
   cursor: pointer;
   display: inline-block;
   margin-left: 1rem;
 }
-
 .data-container:hover .data-box .fa-pen:hover {
   color: black;
 }
 
 .active-container {
   background-color: #d9ecfe;
-}
-/*# sourceMappingURL=DataComponent.css.map */
+}/*# sourceMappingURL=DataComponent.css.map */

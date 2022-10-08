@@ -1,6 +1,8 @@
+// Dependencies
+
 const router = require('express').Router();
-const {PORT, USER, VERSION, PASSWORD, DB_NAME} = process.env;
-const {Sequelize} = require('sequelize');
+const { PORT, USER, VERSION, PASSWORD, DB_NAME } = process.env;
+const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize(`mysql://${USER}:${PASSWORD}@localhost:${PORT}/${DB_NAME}`);
 
 // Models
@@ -11,8 +13,10 @@ const region = require('./models/region');
 const Region = region(sequelize, Sequelize);
 const city = require('./models/city');
 const City = city(sequelize, Sequelize);
-Region.hasMany(Country, {foreignKey: 'region_id'});
-Country.belongsTo(Region, {foreignKey: 'region_id'});
+Region.hasMany(Country, { foreignKey: 'region_id' });
+Country.belongsTo(Region, { foreignKey: 'region_id' });
+Country.hasMany(City, { foreignKey: 'country_id' });
+City.belongsTo(Country, { foreignKey: 'country_id' });
 
 // Middlewares
 
@@ -40,105 +44,10 @@ function validateToken(req, res, next) {
 
 router.get(`${VERSION}/country`, validateToken, (req, res) => {
     Country.findAll({
-        attributes: {exclude: ['id']},
+        attributes: { exclude: ['id'] },
     })
-    .then((data) => {
-        res.json(data);
-    })
-    .catch((err) => {
-        res.status(500).json({
-            error: `A problem has occurred with the server: ${err}.`,
-            status: 500
-        });
-    });
-});
-
-/**
- * Allows to create a new country in the database
- */
-
-router.post(`${VERSION}/country/new`, validateToken, (req, res) => {
-    const {name, region_uuid} = req.body;
-    Region.findOne({where: {uuid: region_uuid},
-        attributes: {exclude: ['uuid', 'name', 'createdAt', 'updatedAt']},
-    })
-    .then((region) => {
-        const {id} = region.dataValues; 
-        Country.create({
-            name,
-            region_id: id
-        })
         .then((data) => {
-            const {uuid} = data.dataValues;
-            Country.findOne({where: {uuid: uuid}})
-            .then((data) => {
-                const {uuid, name, createdAt, updatedAt} = data.dataValues;
-                res.json({
-                    uuid,
-                    name,
-                    createdAt,
-                    updatedAt,
-                });
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    error: `A problem has occurred with the server: ${err}.`,
-                    status: 500
-                });
-            });
-        })
-        .catch(() => {
-            res.status(400).json({
-                error: 'The information received is invalid or necessary information is missing.',
-                status: 400
-            })
-        });
-    })    
-});
-
-/**
- * Allows to get a specific country from the database using its uuid
- */
-
-router.get(`${VERSION}/country/:id`, validateToken, (req, res) => {
-    const {id} = req.params;
-    Country.findOne({where: {uuid: id},
-        attributes: {exclude: ['id']},
-    })
-    .then((data) => {
-        data ? res.json(data) : res.status(404).json({
-            error: 'Country not found.',
-            status: 404
-        });
-    })
-    .catch((err) => {
-        res.status(500).json({
-            error: `A problem has occurred with the server: ${err}.`,
-            status: 500
-        });
-    })
-});
-
-/**
- * Allows to update a specific country from the database using its uuid
- */
-
-router.put(`${VERSION}/country/:id`, validateToken, (req, res) => {
-    const {id} = req.params;
-    const {name} = req.body;
-    Country.update({
-        name
-    }, {where: {uuid: id}})
-    .then(() => {
-        Country.findOne({where:{uuid: id}})
-        .then((data) => {
-            const {uuid, name, createdAt, updatedAt} = data.dataValues;
-            res.json({
-                uuid,
-                name,
-                createdAt, 
-                updatedAt
-            });
+            res.json(data);
         })
         .catch((err) => {
             res.status(500).json({
@@ -146,32 +55,35 @@ router.put(`${VERSION}/country/:id`, validateToken, (req, res) => {
                 status: 500
             });
         });
-    })
-    .catch((err) => {
-        res.status(500).json({
-            error: `A problem has occurred with the server: ${err}.`,
-            status: 500
-        });
-    });
 });
 
 /**
- * Allows to delete a specific country from the database using its uuid
+ * Allows to create a new country in the database
  */
 
-router.delete(`${VERSION}/country/:id`, validateToken, (req, res) => {
-    const {id} = req.params;
-    Country.findOne({where: {uuid: id}})
-    .then((data) => {
-        if (data) {
-            Country.destroy({where: {uuid: id}})
-            .then(() => {
-                City.findAll({where: {country_id: null}})
+router.post(`${VERSION}/country/new`, validateToken, (req, res) => {
+    const { name, region_uuid } = req.body;
+    Region.findOne({
+        where: { uuid: region_uuid },
+        attributes: { exclude: ['uuid', 'name', 'createdAt', 'updatedAt'] },
+    })
+        .then((region) => {
+            const { id } = region.dataValues;
+            Country.create({
+                name,
+                region_id: id
+            })
                 .then((data) => {
-                    data.forEach(({uuid}) => {
-                        City.destroy({where: {uuid: uuid}})
-                        .then(() => {
-                            console.log("Cities deleted successfully");
+                    const { uuid } = data.dataValues;
+                    Country.findOne({ where: { uuid: uuid } })
+                        .then((data) => {
+                            const { uuid, name, createdAt, updatedAt } = data.dataValues;
+                            res.json({
+                                uuid,
+                                name,
+                                createdAt,
+                                updatedAt,
+                            });
                         })
                         .catch((err) => {
                             res.status(500).json({
@@ -179,7 +91,60 @@ router.delete(`${VERSION}/country/:id`, validateToken, (req, res) => {
                                 status: 500
                             });
                         });
+                })
+                .catch(() => {
+                    res.status(400).json({
+                        error: 'The information received is invalid or necessary information is missing.',
+                        status: 400
                     })
+                });
+        })
+});
+
+/**
+ * Allows to get a specific country from the database using its uuid
+ */
+
+router.get(`${VERSION}/country/:id`, validateToken, (req, res) => {
+    const { id } = req.params;
+    Country.findOne({
+        where: { uuid: id },
+        attributes: { exclude: ['id', 'region_id'] },
+    })
+        .then((data) => {
+            data ? res.json(data) : res.status(404).json({
+                error: 'Country not found.',
+                status: 404
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: `A problem has occurred with the server: ${err}.`,
+                status: 500
+            });
+        })
+});
+
+/**
+ * Allows to update a specific country from the database using its uuid
+ */
+
+router.put(`${VERSION}/country/:id`, validateToken, (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    Country.update({
+        name
+    }, { where: { uuid: id } })
+        .then(() => {
+            Country.findOne({ where: { uuid: id } })
+                .then((data) => {
+                    const { uuid, name, createdAt, updatedAt } = data.dataValues;
+                    res.json({
+                        uuid,
+                        name,
+                        createdAt,
+                        updatedAt
+                    });
                 })
                 .catch((err) => {
                     res.status(500).json({
@@ -187,30 +152,107 @@ router.delete(`${VERSION}/country/:id`, validateToken, (req, res) => {
                         status: 500
                     });
                 });
-                res.json({
-                    message: 'Country deleted successfully.',
-                    status: 200
-                });
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    error: `A problem has occurred with the server: ${err}.`,
-                    status: 500
-                });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: `A problem has occurred with the server: ${err}.`,
+                status: 500
             });
-        } else {
-            res.status(404).json({
-                error: 'Region not found.',
-                status: 404
-            });
-        }
-    })
-    .catch((err) => {
-        res.status(500).json({
-            error: `A problem has occurred with the server: ${err}.`,
-            status: 500
         });
-    });
+});
+
+/**
+ * Allows to delete a specific country from the database using its uuid
+ */
+
+router.delete(`${VERSION}/country/:id`, validateToken, (req, res) => {
+    const { id } = req.params;
+    Country.findOne({ where: { uuid: id } })
+        .then((data) => {
+            if (data) {
+                Country.destroy({ where: { uuid: id } })
+                    .then(() => {
+                        City.findAll({ where: { country_id: null } })
+                            .then((data) => {
+                                data.forEach(({ uuid }) => {
+                                    City.destroy({ where: { uuid: uuid } })
+                                        .then(() => {
+                                            console.log("Cities deleted successfully");
+                                        })
+                                        .catch((err) => {
+                                            res.status(500).json({
+                                                error: `A problem has occurred with the server: ${err}.`,
+                                                status: 500
+                                            });
+                                        });
+                                })
+                            })
+                            .catch((err) => {
+                                res.status(500).json({
+                                    error: `A problem has occurred with the server: ${err}.`,
+                                    status: 500
+                                });
+                            });
+                        res.json({
+                            message: 'Country deleted successfully.',
+                            status: 200
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(500).json({
+                            error: `A problem has occurred with the server: ${err}.`,
+                            status: 500
+                        });
+                    });
+            } else {
+                res.status(404).json({
+                    error: 'Region not found.',
+                    status: 404
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: `A problem has occurred with the server: ${err}.`,
+                status: 500
+            });
+        });
+});
+
+/**
+ * Get city from a country using its uuid / uuid = uuid_city
+ */
+
+router.get(`${VERSION}/country/:id/city`, validateToken, (req, res) => {
+    const { id } = req.params;
+    Country.findOne({
+        where: { uuid: id },
+    })
+        .then((data) => {
+            const { id } = data.dataValues;
+            City.findAll({
+                where: { country_id: id },
+                attributes: { exclude: ['id'] },
+            })
+                .then((data) => {
+                    data ? res.json(data) : res.status(404).json({
+                        error: 'City not found.',
+                        status: 404
+                    });
+                })
+                .catch((err) => {
+                    res.status(500).json({
+                        error: `A problem has occurred with the server: ${err}.`,
+                        status: 500
+                    });
+                })
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: `A problem has occurred with the server: ${err}.`,
+                status: 500
+            });
+        });
 });
 
 // export

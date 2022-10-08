@@ -22,39 +22,23 @@ import './LocationScreen.css';
 const LocationScreen = () => {
 
     /**
-     * Gets the user's token from the localstorage.
+     * States and Contexts to handle the data.
      */
-    
+
     const token = JSON.parse(localStorage.getItem('token'));
 
-    /**
-     * Takes from the context the object's current state that allows show the respective input options on the "Data Manager" component.
-     */
+    const { infoComponent, setInfoComponent } = useContext(InfoComponentContext);
 
-    const {infoComponent, setInfoComponent} = useContext(InfoComponentContext);
+    const { setCloseNode } = useContext(DataContext);
 
-    /**
-     * Takes from the context the current state for the "Data Manager" component.
-     */
+    const { allData, setAllData } = useContext(DataTableContext);
 
-    const {setCloseNode} = useContext(DataContext);
-
-    /**
-     * saves an array with all users registered on the app.
-     */
-    
-    const {allData, setAllData} = useContext(DataTableContext);
-
-    /**
-     * Takes from the context the data type handler's current state for the "Data Manager".
-     */
-
-    const {current, setCurrent} = useContext(CurrentDataManagerContext);
+    const { current, setCurrent } = useContext(CurrentDataManagerContext);
 
     /**
      * An object with all data for the create region modal.
      */
-    
+
     const createRegion = {
         title_component: "Nueva región",
         data_fields: [
@@ -90,42 +74,47 @@ const LocationScreen = () => {
             func: createRegionBtn
         }
     ]
-    
+
     /**
      * Gets from the database the current version of all regions.
      */
 
-    const getAllRegions = async() => {
+    const getAllRegions = async () => {
         const response = await fetch('http://localhost:4000/v1/region', {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         });
         const regions = await response.json();
         setAllData(regions);
     }
-        
+
     /**
      * An useEffect hook that allows to get all regions from the database.
      */
-    
-     useEffect(() => {
+
+    useEffect(() => {
         getAllRegions();
     }, []);
 
     return (
         <>
-            <DataManager info={infoComponent} current={current}/>
+            <DataManager info={infoComponent} current={current} />
             <div className="location-section-container">
-                <div className="button-container">
-                    <Button dataBtn={addRegionBtn}/>
+                <div className="location-title-container">
+                    <div className="location-title">
+                        Región/Ciudad
+                    </div>
+                    <div className="button-container">
+                        <Button dataBtn={addRegionBtn} />
+                    </div>
                 </div>
                 <hr />
                 <>
                     {
                         allData.length > 0 ? allData.map((item, index) => {
                             return (
-                                <LocationComponent key={index} region={item} token={token}/>
+                                <LocationComponent key={index} region={item} token={token} />
                             )
                         }) : <NoContentComponent />
                     }

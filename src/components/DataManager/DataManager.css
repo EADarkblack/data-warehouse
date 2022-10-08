@@ -1,58 +1,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .data-manager-bg {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: #000000CC;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
   display: none;
   height: 200%;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 5;
 }
-
 .data-manager-bg .data-manager-container {
   background-color: #ffffff;
   bottom: 12rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  height: 36.06rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  min-height: 36.06rem;
+  justify-content: center;
   position: fixed;
   width: 75%;
 }
-
 .data-manager-bg .data-manager-container .color-area {
   background-color: #1d72c2;
   height: 8.75rem;
   padding-top: 1.67rem;
   width: 100%;
 }
-
 .data-manager-bg .data-manager-container .data-section {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: #ffffff;
   border: 3px solid #0683f9;
   border-radius: 0.5rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 8.19rem;
   position: absolute;
-  top: 04.84rem;
+  top: 4.84rem;
   width: 95%;
   z-index: 2;
 }
-
+.data-manager-bg .data-manager-container .more-data-section {
+  align-items: center;
+  display: flex;
+  height: 8.19rem;
+  position: absolute;
+  top: 12.5rem;
+  width: 95%;
+}
 .data-manager-bg .data-manager-container .btn-container {
   margin: 0 1.88rem 1.88rem 0;
   position: absolute;
@@ -61,24 +53,15 @@
 }
 
 .active-modal {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .blue-area-content {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin: 0 2.19rem 0 1.99rem;
 }
-
 .blue-area-content .title {
   color: #ffffff;
   font-family: "Open Sans", sans-serif;
@@ -87,7 +70,6 @@
   margin: 0;
   text-align: left;
 }
-
 .blue-area-content .fa-times {
   color: #ffffff;
   cursor: pointer;
@@ -95,52 +77,32 @@
 }
 
 .profile-pic {
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
   border: 3px solid #1d72c2;
   border-radius: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 5.25rem;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   margin: 0 0 0 1.47rem;
   width: 5.31rem;
 }
-
 .profile-pic .upload-icon {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: #ffffff;
   border-radius: 100%;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 1.25rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   width: 1.25rem;
 }
-
 .profile-pic .upload-icon .blue-area {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: #1d72c2;
   border-radius: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 85%;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   width: 85%;
 }
 
@@ -149,22 +111,18 @@
   margin-left: 1rem;
   width: 100%;
 }
-
 .data-input .title-input {
   font-size: 0.8rem;
   margin-bottom: 0.66rem;
 }
-
 .data-input .title-input span {
   color: #de0028;
 }
-
 .data-input .input-container {
   border: 1px solid #b5b5b5;
   border-radius: 0.25rem;
   height: 2.22rem;
 }
-
 .data-input .input-container .input {
   border: 0;
   font-family: "Open Sans", sans-serif;
@@ -173,23 +131,15 @@
   outline: none;
   width: 90%;
 }
-
-.data-input .input-container .input::-webkit-input-placeholder {
+.data-input .input-container .input::-moz-placeholder {
   color: #000000;
 }
-
 .data-input .input-container .input:-ms-input-placeholder {
   color: #000000;
 }
-
-.data-input .input-container .input::-ms-input-placeholder {
-  color: #000000;
-}
-
 .data-input .input-container .input::placeholder {
   color: #000000;
 }
-
 .data-input .input-container .input:disabled {
   cursor: not-allowed;
 }
@@ -248,4 +198,32 @@
 .cancel-active {
   color: #de0028;
 }
-/*# sourceMappingURL=DataManager.css.map */
+
+.more-data-title {
+  color: #1d72c2;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 1.67rem;
+}
+
+.edit-more-info {
+  background-color: #1d72c2;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  margin: 1.6rem 0 0 1rem;
+  min-width: 10.81rem;
+}
+.edit-more-info .more-info-btn {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.edit-more-info:hover {
+  background-color: #ffffff;
+  border: 1px solid #1d72c2;
+  color: #1d72c2;
+}/*# sourceMappingURL=DataManager.css.map */

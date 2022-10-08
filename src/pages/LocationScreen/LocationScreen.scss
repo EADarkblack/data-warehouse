@@ -1,23 +1,40 @@
 @import "../../sass/variables";
 
-.button-container {
+.location-title-container {
+  align-items: center;
   display: flex;
-  justify-content: flex-end;
-  margin: 2rem 2rem 4rem 0;
-  .add-region-btn {
-    background-color: $mainColor;
-    border: none;
-    border-radius: 0.1rem;
-    color: $secondColor;
-    cursor: pointer;
-    font-family: $mainFont;
-    height: 2.63rem;
-    margin-right: 0.53rem;
-    width: 10.81rem;
-  }
-  .add-region-btn:hover {
-    background-color: $secondColor;
-    border: 1px solid $mainColor;
+  justify-content: space-between;
+  margin: 0 2.7rem;
+
+  .location-title {
     color: $mainColor;
+    font-family: $mainFont;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2rem 2rem 4rem 0;
+
+
+    .add-region-btn {
+      background-color: $mainColor;
+      border: none;
+      border-radius: 0.1rem;
+      color: $secondColor;
+      cursor: pointer;
+      font-family: $mainFont;
+      height: 2.63rem;
+      margin-right: 0.53rem;
+      width: 10.81rem;
+    }
+
+    .add-region-btn:hover {
+      background-color: $secondColor;
+      border: 1px solid $mainColor;
+      color: $mainColor;
+    }
   }
 }

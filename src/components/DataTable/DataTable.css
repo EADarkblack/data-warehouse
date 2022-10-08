@@ -1,14 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .select-opt {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin-bottom: 0.2rem;
 }
-
 .select-opt .select-total {
   background-color: #c0e0fd;
   border-radius: 0.1rem;
@@ -19,20 +14,14 @@
   text-align: center;
   width: 7rem;
 }
-
 .select-opt .delete-container {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   color: #1d72c2;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
 }
-
 .select-opt .delete-container .fa-trash {
   margin-right: 0.5rem;
 }
@@ -48,35 +37,20 @@
   padding-top: 0.72rem;
   width: 100%;
 }
-
 .table-border .title-row {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   border-bottom: 1px solid #c2c2c2;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 3.5rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   padding: 0 1.09rem 0 1.16rem;
 }
-
 .table-border .title-row .checkbox-container {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   margin: 0 1rem 1rem 0;
 }
-
 .table-border .title-row .title-column {
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
@@ -84,14 +58,12 @@
   padding-left: 1.04rem;
   width: 100%;
 }
-
 .table-border .title-row .title-column:nth-last-child(1) {
   padding-left: 0;
   padding-right: 1.04rem;
   text-align: center;
   width: 25%;
 }
-
 .table-border .fa-sort {
   cursor: pointer;
   margin-left: 0.54rem;
@@ -99,27 +71,17 @@
 
 .pag-menu {
   color: dimgray;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
   height: 1rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin-bottom: 3.51rem;
 }
-
 .pag-menu .pag-controller {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
 }
-
 .pag-menu .pag-controller .pag-select {
   border: 1px solid #ffffff;
   color: dimgray;
@@ -129,41 +91,26 @@
   margin: 0 0.41rem 0 0.95rem;
   outline: none;
 }
-
 .pag-menu .pag-controller .fa-chevron-down {
   cursor: pointer;
 }
-
 .pag-menu .pag-number {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
 }
-
 .pag-menu .pag-number .arrows {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin-left: 3.04rem;
   width: 3rem;
 }
-
 .pag-menu .pag-number .fa-chevron-left {
   cursor: pointer;
 }
-
 .pag-menu .pag-number .fa-chevron-right {
   cursor: pointer;
 }
-
 .pag-menu .pag-number .no-active-btn {
   opacity: 0.5;
   cursor: not-allowed;
-}
-/*# sourceMappingURL=DataTable.css.map */
+}/*# sourceMappingURL=DataTable.css.map */

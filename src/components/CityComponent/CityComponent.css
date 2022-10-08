@@ -1,64 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .city-container-comp {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   background-color: #ffffff;
   border: 1px solid #74b1ea;
   border-radius: 0.5rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 4rem;
   margin: 1rem 0 1rem 4rem;
   position: relative;
   z-index: 1;
 }
-
 .city-container-comp .city {
   color: #1d72c2;
   font-size: 1.5rem;
   margin: 0 2rem;
 }
-
 .city-container-comp .city-buttons {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
   font-size: 1.5rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin: 0 0 0 2rem;
   position: absolute;
   right: 0;
 }
-
 .city-container-comp .city-buttons .edit-city-btn {
   color: #74b1ea;
   cursor: pointer;
   margin-right: 2rem;
 }
-
 .city-container-comp .city-buttons .edit-city-btn:hover {
   color: #1d72c2;
 }
-
 .city-container-comp .city-buttons .delete-city-btn {
   color: #ff5f7b;
   cursor: pointer;
   margin-right: 2rem;
 }
-
 .city-container-comp .city-buttons .delete-city-btn:hover {
   color: #de0028;
 }
 
 .city-container-comp:hover {
-  -webkit-box-shadow: #328ce0 3px 3px 5px;
-          box-shadow: #328ce0 3px 3px 5px;
-}
-/*# sourceMappingURL=CityComponent.css.map */
+  box-shadow: #328ce0 3px 3px 5px;
+}/*# sourceMappingURL=CityComponent.css.map */

@@ -7,11 +7,9 @@
   position: relative;
   width: 0.94rem;
 }
-
 .checkbox-border .icon {
   display: none;
 }
-
 .checkbox-border .checkbox {
   cursor: pointer;
   height: 1rem;
@@ -27,37 +25,22 @@
   border: 2px solid #8abeee;
   background-color: #8abeee;
 }
-
 .block .icon {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   color: #ffffff;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   font-size: 0.9rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .active {
   border: 2px solid #1d72c2;
   background-color: #1d72c2;
 }
-
 .active .icon {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   color: #ffffff;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   font-size: 0.9rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-/*# sourceMappingURL=Checkbox.css.map */
+  justify-content: center;
+}/*# sourceMappingURL=Checkbox.css.map */

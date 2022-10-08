@@ -25,107 +25,61 @@ import './UserScreen.css';
 const UserScreen = () => {
 
     /**
-     * Gets the "dispatch" from  the AuthContext.
+     * States and Contexts to handle the data.
      */
 
-    const {dispatch} = useContext(AuthContext);
-
-    /**
-     * Saves the data from the user logged to show on the "user screen".
-     */
+    const { dispatch } = useContext(AuthContext);
 
     const [data, setData] = useState({});
 
-    /**
-     * saves an array with all users registered on the app.
-     */
-
-    const {allData, setAllData} = useContext(DataTableContext);
-
-    /**
-     * Gets the user's uuid from the localstorage.
-     */
+    const { allData, setAllData } = useContext(DataTableContext);
 
     const id = JSON.parse(localStorage.getItem('user'));
 
-    /**
-     * Gets the user's token from the localstorage.
-     */
-    
     const token = JSON.parse(localStorage.getItem('token'));
 
-    /**
-     * Takes from the context the current state for the "Data Manager" component.
-     */
+    const { setCloseNode } = useContext(DataContext);
 
-    const {setCloseNode} = useContext(DataContext);
+    const { current, setCurrent } = useContext(CurrentDataManagerContext);
 
-    /**
-     * Takes from the context the data type handler's current state for the "Data Manager".
-     */
+    const { infoComponent, setInfoComponent } = useContext(InfoComponentContext);
 
-    const {current, setCurrent} = useContext(CurrentDataManagerContext);
+    const { limit } = useContext(LimitDataContext);
 
-    /**
-     * Takes from the context the object's current state that allows show the respective input options on the "Data Manager" component.
-     */
-
-    const {infoComponent, setInfoComponent} = useContext(InfoComponentContext);
-
-    /**
-     * Sets the limit of data that can be render on the screen.
-     */
-
-    const {limit} = useContext(LimitDataContext);
-
-    /**
-     * Allows to set the offset of data that can be render on the screen.
-     */
-
-    const {offset} = useContext(OffsetContext);
-
-    /**
-     * Allows to set the sort type of the data that can be render on the screen.
-     */
+    const { offset } = useContext(OffsetContext);
 
     const [sort, setSort] = useState("ASC");
 
-    /**
-     * Allows to set the sort field of the data that can be render on the screen.
-     */
-
     const [column, setColumn] = useState("id");
-
-    /**
-     * Allows to get and set the total number of data received from the server.
-     */
 
     const [totalResults, setTotalResults] = useState(0);
 
     /**
      * Gets the user's data from the server searching by his/her uuid.
      */
-    
-    const getDataUser = async() => {
-        const response = await fetch(`http://localhost:4000/v1/user/${id}`, {headers: {
-            'Authorization': `Bearer ${token}`
-        }});
+
+    const getDataUser = async () => {
+        const response = await fetch(`http://localhost:4000/v1/user/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         const data = await response.json();
         setData(data);
     }
-    
+
     /**
      * Gets all users registered on the app depending of the limit and offset number.
      */
 
-    const getAllUsers = async() => {
+    const getAllUsers = async () => {
         const response = await fetch('http://localhost:4000/v1/user', {
             headers: {
-            'Authorization': `Bearer ${token}`,
-            'Sort': sort,
-            'Column': column,
-            'limit': limit,
-            'offset': offset
+                'Authorization': `Bearer ${token}`,
+                'Sort': sort,
+                'Column': column,
+                'limit': limit,
+                'offset': offset
             }
         });
         const users = await response.json();
@@ -136,25 +90,25 @@ const UserScreen = () => {
      * Gets all users registered on the app to set the total number of user registereds on the app.
      */
 
-     const getTotalResults = async() => {
+    const getTotalResults = async () => {
         const response = await fetch('http://localhost:4000/v1/user', {
             headers: {
-            'Authorization': `Bearer ${token}`,
-            'Sort': sort,
-            'Column': column,
-            'limit': 1000,
-            'offset': 0
+                'Authorization': `Bearer ${token}`,
+                'Sort': sort,
+                'Column': column,
+                'limit': 1000,
+                'offset': 0
             }
         });
         const users = await response.json();
         setTotalResults(users.length);
     }
-    
+
     /**
      * This hooks allows execute all request avoiding the iteration on there.
      * .
      */
-    
+
     useEffect(() => {
         getDataUser();
         getAllUsers();
@@ -171,27 +125,27 @@ const UserScreen = () => {
     /**
      * Assigns a name to the profile boolean value, with this is possible show on the screen the profile status.
      */
-    
+
     const role = data.profile ? "Administrador" : "Básico";
-        
+
     /**
      * An array with all column's titles for the user table.
      */
-    
+
     const columns = [
         {
             title: "Usuario",
             sort: true,
             func: () => {
-                if(column === "id") {
+                if (column === "id") {
                     setSort("ASC");
                     setColumn("name");
                     getAllUsers();
-                } else if(sort === "ASC") {
+                } else if (sort === "ASC") {
                     setSort("DESC");
                     setColumn("name");
                     getAllUsers();
-                } else if(sort === "DESC") {
+                } else if (sort === "DESC") {
                     setSort("ASC");
                     setColumn("id");
                     getAllUsers();
@@ -203,7 +157,7 @@ const UserScreen = () => {
             sort: false
         },
         {
-            title:  "Perfil",
+            title: "Perfil",
             sort: false
         },
         {
@@ -215,27 +169,27 @@ const UserScreen = () => {
     /**
      * Change the log status and deletes all data saved on the localstorage.
      */
-    
+
     const logout = () => {
-        dispatch({type: authTypes.logout});
+        dispatch({ type: authTypes.logout });
         localStorage.removeItem('token');
         localStorage.removeItem('user');
     }
-    
+
     /**
      * Allows open the "Data Manager" screen and set its respective data.
      */
-    
+
     const createUser = () => {
         setInfoComponent(createUserObj);
         setCloseNode("data-manager-bg active-modal");
         setCurrent("new");
     }
-    
+
     /**
      * Allows open the "Data Manager" screen on the edit user mode.
      */
-    
+
     const editOwner = () => {
         setInfoComponent(editUserObj);
         setCloseNode("data-manager-bg active-modal");
@@ -245,7 +199,7 @@ const UserScreen = () => {
     /**
      * assign some data and function to every button on the user section.
      */
-    
+
     const userSectionButtonsAdmin = [
         {
             class: "add-user-btn",
@@ -262,7 +216,7 @@ const UserScreen = () => {
     /**
      * Sets the log out button for the user screen on the basic user mode.
      */
-    
+
     const userSectionButtonsBasic = [
         {
             class: "logout-btn",
@@ -290,11 +244,11 @@ const UserScreen = () => {
         owner_data: data.profile ? "Administrador" : "Basico",
         disable: true
     };
-    
+
     /**
      * The object with all data for the "Data Manager" on the user edit mode.
      */
-        
+
     const editUserObj = {
         title_component: "Editar usuario",
         data_fields: [
@@ -336,11 +290,11 @@ const UserScreen = () => {
         owner: data,
         pic: false
     }
-    
+
     /**
      * The object with all data for the "Data Manager" on the user create mode.
      */
-    
+
     const createUserObj = {
         title_component: "Nuevo usuario",
         data_fields: [
@@ -398,7 +352,7 @@ const UserScreen = () => {
 
     return (
         <>
-            <DataManager info={infoComponent} current={current} token={token}/>
+            <DataManager info={infoComponent} current={current} token={token} />
             <div className="user-section-container">
                 <div className="title">
                     Bienvenido/a {data.name}
@@ -418,13 +372,13 @@ const UserScreen = () => {
                 <hr />
                 <div className="event-btn">
                     {
-                        data.profile ? <Button dataBtn={userSectionButtonsAdmin}/> : <Button dataBtn={userSectionButtonsBasic}/>
+                        data.profile ? <Button dataBtn={userSectionButtonsAdmin} /> : <Button dataBtn={userSectionButtonsBasic} />
                     }
                 </div>
                 <>
                     {
 
-                        data.profile && <DataTable tableClass={"user-table-container"} user={allData} columns={columns} token={token} title_delete={"usuarios"} totalResults={totalResults}/>
+                        data.profile && <DataTable tableClass={"user-table-container"} user={allData} columns={columns} token={token} title_delete={"usuarios"} totalResults={totalResults} />
                     }
                 </>
             </div>

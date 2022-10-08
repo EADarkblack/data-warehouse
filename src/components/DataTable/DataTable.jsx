@@ -19,37 +19,30 @@ import './DataTable.css';
 
 // Functions
 
-const DataTable = ({user, columns, tableClass, token, title_delete, totalResults}) => {
+const DataTable = ({ user, columns, tableClass, token, title_delete, totalResults }) => {
+
+    // DON'T DELETE IT - It's used to debug all the props
+
+    /*     console.log(user)
+        console.log(columns)
+        console.log(tableClass)
+        console.log(token)
+        console.log(title_delete)
+        console.log(totalResults) */
 
     /**
-     * @description - Sets the current data getted from the checkbox and allows make few actions with it.
+     * States and contexts to handle the data.
      */
 
     const [checkboxData, setCheckboxData] = useState([]);
 
-    /**
-     * Allows to display the confirmation modal.
-     */
-  
     const [confirmationNode, setConfirmationNode] = useState("node-bg no-active-node");
 
-    /**
-     * Sets the limit of data that can be render on the screen.
-     */
+    const { limit, setLimit } = useContext(LimitDataContext);
 
-    const {limit, setLimit} = useContext(LimitDataContext);
+    const { allData } = useContext(DataTableContext);
 
-    /**
-     * Gets an updated version of all data from the data base.
-     */
-
-    const {allData} = useContext(DataTableContext);
-
-    /**
-     * Allows to set the offset of data that can be render on the screen.
-     */
-
-    const {offset, setOffset} = useContext(OffsetContext);
+    const { offset, setOffset } = useContext(OffsetContext);
 
     /**
      * A function that allows to close the confirmation modal.
@@ -60,64 +53,64 @@ const DataTable = ({user, columns, tableClass, token, title_delete, totalResults
     }
 
     return (
-        <CheckboxContext.Provider value={{checkboxData, setCheckboxData}}>
-        <ConfirmationNodeContext.Provider value={{confirmationNode, setConfirmationNode}}>
-            <ConfirmationNode token={token}/>
-            <div className={tableClass}>
-                <div className={checkboxData.length > 0 ? "select-opt" : "select-opt hide-opt"}>
-                    <div className="select-total">{checkboxData.length} seleccionados</div>
-                    <div className="delete-container" onClick={deleteSelectedData}>
-                        <i className="fas fa-trash"></i>
-                        <div>Eliminar {title_delete}</div>
+        <CheckboxContext.Provider value={{ checkboxData, setCheckboxData }}>
+            <ConfirmationNodeContext.Provider value={{ confirmationNode, setConfirmationNode }}>
+                <ConfirmationNode token={token} page={title_delete} />
+                <div className={tableClass}>
+                    <div className={checkboxData.length > 0 ? "select-opt" : "select-opt hide-opt"}>
+                        <div className="select-total">{checkboxData.length} seleccionados</div>
+                        <div className="delete-container" onClick={deleteSelectedData}>
+                            <i className="fas fa-trash"></i>
+                            <div>Eliminar {title_delete}</div>
+                        </div>
                     </div>
-                </div>
-                <div className="table-border">
-                    <div className="title-row">
-                        <div className="checkbox-container">
-                            <Checkbox data={user} checkboxClass={checkboxData.length !== 0 ? 'checkbox-border block' : 'checkbox-border'}/>
+                    <div className="table-border">
+                        <div className="title-row">
+                            <div className="checkbox-container">
+                                <Checkbox data={user} checkboxClass={checkboxData.length !== 0 ? 'checkbox-border block' : 'checkbox-border'} />
+                            </div>
+                            {
+                                columns.map((item) => (
+                                    <div className="title-column" key={item.title}>
+                                        {item.title}
+                                        <i className={item.sort ? "fas fa-sort" : ""} onClick={item.func}></i>
+                                    </div>
+                                ))
+                            }
                         </div>
                         {
-                            columns.map((item) => (
-                                <div className="title-column" key={item.title}>
-                                    {item.title}
-                                    <i className={item.sort ? "fas fa-sort" : ""} onClick={item.func}></i>
-                                </div>
+                            user.map((item) => (
+                                <DataComponent data={item} key={item.uuid} token={token} className={
+                                    checkboxData.find(value => value === item.uuid) ? "data-container active-container" : "data-container"
+                                } checkboxClass={checkboxData.find(value => value === item.uuid) ? "checkbox-border active" : "checkbox-border"} page={title_delete} />
                             ))
                         }
                     </div>
-                    {
-                        user.map((item) => (
-                            <DataComponent data={item} key={item.uuid} token={token} className={
-                                checkboxData.find(value => value === item.uuid) ? "data-container active-container" : "data-container"
-                            } checkboxClass={checkboxData.find(value => value === item.uuid) ? "checkbox-border active" : "checkbox-border"}/>
-                        ))
-                    }
-                </div>
-                <div className="pag-menu">
-                    <label className="pag-controller">
-                        <p>Filas por página</p>
-                        <select className="pag-select" onChange={(e) => setLimit(parseInt(e.target.value))}>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                        </select>
-                    </label>
-                    <div className="pag-number">
-                        <p>1 - {allData.length} de {totalResults} filas</p>
-                        <div className="arrows">
-                            <i className={offset === 0 ? "fas fa-chevron-left no-active-btn" : "fas fa-chevron-left"}  onClick={() =>  {
-                                setOffset(Math.sign(offset - limit) === -1 ? 0 : offset - limit);
-                            }}></i>
-                            <i className={allData.length < offset ? "fas fa-chevron-right no-active-btn" : "fas fa-chevron-right"} onClick={() => {
-                                if (allData.length !== 0) {
-                                    setOffset(allData.length < totalResults ? offset + limit : limit - offset);
-                                }
-                            }}></i>
+                    <div className="pag-menu">
+                        <label className="pag-controller">
+                            <p>Filas por página</p>
+                            <select className="pag-select" onChange={(e) => setLimit(parseInt(e.target.value))}>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                        </label>
+                        <div className="pag-number">
+                            <p>1 - {allData.length} de {totalResults} filas</p>
+                            <div className="arrows">
+                                <i className={offset === 0 ? "fas fa-chevron-left no-active-btn" : "fas fa-chevron-left"} onClick={() => {
+                                    setOffset(Math.sign(offset - limit) === -1 ? 0 : offset - limit);
+                                }}></i>
+                                <i className={allData.length < offset ? "fas fa-chevron-right no-active-btn" : "fas fa-chevron-right"} onClick={() => {
+                                    if (allData.length !== 0) {
+                                        setOffset(allData.length < totalResults ? offset + limit : limit - offset);
+                                    }
+                                }}></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </ConfirmationNodeContext.Provider>
+            </ConfirmationNodeContext.Provider>
         </CheckboxContext.Provider>
     )
 }

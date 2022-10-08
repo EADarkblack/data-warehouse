@@ -1,6 +1,6 @@
 // Libraries
 
-import React,  {useState} from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 // Styles
@@ -9,7 +9,13 @@ import './Navbar.css';
 
 // Functions
 
-const Navbar = ({auth}) => {
+const Navbar = ({ auth }) => {
+
+    /**
+    * States and Contexts to handle the data.
+    */
+
+    const [isActive, setActive] = useState("Contactos");
 
     /**
      * An array with all data from each button on the nav bar.
@@ -26,19 +32,13 @@ const Navbar = ({auth}) => {
         },
         {
             path: "/user",
-            name: "Usuarios"           
+            name: "Usuarios"
         },
         {
             path: "/location",
             name: "Región/Ciudad"
         }
     ];
-
-    /**
-     * This state allows add to the button the class name "active".
-     */
-
-    const [isActive, setActive] = useState("Contactos");
 
     /**
      * 
@@ -51,8 +51,8 @@ const Navbar = ({auth}) => {
 
     return (
         <nav className="nav-bar-container">
-            <NavLink to="/contact" className="anchor-logo" onClick={()=> handleActive("Contactos")}>
-                <img src="/assets/logo.png" alt="" className="logo"/>
+            <NavLink to="/contact" className="anchor-logo" onClick={() => handleActive("Contactos")}>
+                <img src="/assets/logo.png" alt="" className="logo" />
             </NavLink>
             <div className={auth.log ? "menu-container" : "menu-container active-menu"}>
                 {buttons.map((item) => (

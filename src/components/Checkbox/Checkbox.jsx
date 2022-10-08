@@ -12,17 +12,13 @@ import './Checkbox.css';
 
 // Functions
 
-const Checkbox = ({uuid, data, checkboxClass}) => {
+const Checkbox = ({ uuid, data, checkboxClass }) => {
 
     /**
-     * Gets all data from checkbox context.
+     * states and Contexts to handle the data.
      */
 
-    const {checkboxData, setCheckboxData} = useContext(CheckboxContext);
-
-    /**
-     * This array is used to store the data of the checkbox.
-     */
+    const { checkboxData, setCheckboxData } = useContext(CheckboxContext);
 
     const [dataArr, setDataArr] = useState([]);
 
@@ -54,15 +50,15 @@ const Checkbox = ({uuid, data, checkboxClass}) => {
      */
 
     const selectAll = () => {
-        data.forEach(({uuid}) => {
+        data.forEach(({ uuid }) => {
             if (checkboxData.find(value => value === uuid)) {
                 setDataArr([]);
                 setCheckboxData([]);
-            } else {           
-                dataArr.push(uuid);       
+            } else {
+                dataArr.push(uuid);
                 setCheckboxData(dataArr);
             }
-        }) 
+        })
     }
 
     /**
@@ -82,7 +78,7 @@ const Checkbox = ({uuid, data, checkboxClass}) => {
             <div className="icon">
                 <i className={checkboxClass === 'checkbox-border active' ? 'fas fa-check' : 'fas fa-minus'}></i>
             </div>
-            <input onClick={handleCheckbox} type="checkbox" className="checkbox"/>
+            <input onClick={handleCheckbox} type="checkbox" className="checkbox" />
         </div>
     )
 }
