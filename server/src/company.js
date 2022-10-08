@@ -115,9 +115,6 @@ router.post(`${VERSION}/company/new`, validateToken, (req, res) => {
                                 email,
                                 phone,
                                 address,
-                                uuid_region,
-                                uuid_country,
-                                uuid_city,
                                 region_id: region_id,
                                 country_id: country_id,
                                 city_id: city_id
