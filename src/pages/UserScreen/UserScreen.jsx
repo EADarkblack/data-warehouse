@@ -106,10 +106,10 @@ const UserScreen = () => {
 
     /**
      * This hooks allows execute all request avoiding the iteration on there.
-     * .
      */
 
     useEffect(() => {
+        setInfoComponent(editUserObj);
         getDataUser();
         getAllUsers();
     }, []);
@@ -234,14 +234,14 @@ const UserScreen = () => {
         require: true,
         type: "text",
         name: "profile",
-        owner_data: data.profile ? "Administrador" : "Basico",
+        value: data.profile ? "Administrador" : "Basico",
         disable: false
     } : {
         title: "Perfil",
         require: true,
         type: "text",
         name: "profile",
-        owner_data: data.profile ? "Administrador" : "Basico",
+        value: data.profile ? "Administrador" : "Basico",
         disable: true
     };
 

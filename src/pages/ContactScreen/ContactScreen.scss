@@ -1,0 +1,53 @@
+@import "../../sass/variables";
+
+* {
+    margin: 0;
+}
+
+.contact-title-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 4rem 2.7rem;
+
+    .search-title-container {
+        width: 45%;
+
+        .contact-title {
+            color: $mainColor;
+            font-family: $mainFont;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .input-container {
+            margin-top: 1rem;
+        }
+    }
+
+    .contact-btn-container {
+        align-self: flex-end;
+
+        .add-contact-btn {
+            background-color: $mainColor;
+            border: none;
+            border-radius: 0.1rem;
+            color: $secondColor;
+            cursor: pointer;
+            font-family: $mainFont;
+            height: 2.63rem;
+            margin-right: 0.53rem;
+            width: 10.81rem;
+        }
+
+        .add-contact-btn:hover {
+            background-color: $secondColor;
+            border: 1px solid $mainColor;
+            color: $mainColor;
+        }
+    }
+}
+
+.contact-table-container {
+    margin: 1.5rem 1.78rem 0 1.72rem;
+}

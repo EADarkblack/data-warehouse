@@ -10,7 +10,7 @@ const Button = ({ dataBtn }) => {
         <>
             {
                 dataBtn.map((item) => (
-                    <button onClick={item.func} className={item.class} key={item.text} type={item.type}>{parser(item.text)}</button>
+                    <button onClick={item.func} name={item.name ?? ""} className={item.class} key={item.text} type={item.type}>{parser(item.text)}</button>
                 ))
             }
         </>
@@ -18,4 +18,3 @@ const Button = ({ dataBtn }) => {
 }
 
 export default Button;
-

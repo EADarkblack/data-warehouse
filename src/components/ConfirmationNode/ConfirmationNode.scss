@@ -10,6 +10,7 @@
   top: 0;
   width: 100%;
   z-index: 2;
+
   .node-container {
     align-items: center;
     background-color: $secondColor;
@@ -20,21 +21,25 @@
     height: 20rem;
     position: fixed;
     width: 25rem;
+
     .delete-icon {
       height: 7rem;
       margin-top: 1.5rem;
       width: 7rem;
     }
+
     .confirmation-text {
       margin: 2rem 0;
       text-align: center;
     }
+
     p {
       color: $thirdColor;
       font-family: $mainFont;
       font-size: 1rem;
       margin: 0;
     }
+
     .cancel-btn {
       background-color: $mainColor;
       border: none;
@@ -46,11 +51,13 @@
       width: 10rem;
       margin-right: 1rem;
     }
+
     .cancel-btn:hover {
       background-color: $secondColor;
       border: 1px solid $mainColor;
       color: $mainColor;
     }
+
     .delete-btn {
       background-color: $fourthColor;
       border: none;
@@ -63,6 +70,7 @@
       margin-left: 1rem;
       width: 10rem;
     }
+
     .delete-btn:hover {
       background-color: $secondColor;
       border: 1px solid $fourthColor;
@@ -70,6 +78,7 @@
     }
   }
 }
+
 .no-active-node {
   display: none;
 }

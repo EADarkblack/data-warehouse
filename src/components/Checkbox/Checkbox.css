@@ -22,8 +22,8 @@
 }
 
 .block {
-  border: 2px solid #8abeee;
-  background-color: #8abeee;
+  background-color: #f4caa8;
+  border: 2px solid #f4caa8;
 }
 .block .icon {
   align-items: center;
@@ -34,8 +34,8 @@
 }
 
 .active {
-  border: 2px solid #1d72c2;
-  background-color: #1d72c2;
+  background-color: #e37820;
+  border: 2px solid #e37820;
 }
 .active .icon {
   align-items: center;

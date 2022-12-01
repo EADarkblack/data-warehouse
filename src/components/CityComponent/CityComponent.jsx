@@ -41,7 +41,7 @@ const CityComponent = ({ city, token }) => {
                 require: true,
                 type: "text",
                 name: "name",
-                owner_data: city.name
+                value: city.name
             }
         ],
         owner: city,

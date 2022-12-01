@@ -177,6 +177,7 @@ const CompanyScreen = () => {
      */
 
     useEffect(() => {
+        setInfoComponent(addCompanyObj);
         getAllCompanies();
         getAllRegions();
     }, [])
@@ -285,7 +286,7 @@ const CompanyScreen = () => {
     const createCompany = () => {
         setInfoComponent(addCompanyObj);
         setCloseNode("data-manager-bg active-modal");
-        setCurrent("new-company")
+        setCurrent("new-company");
     }
 
     /**

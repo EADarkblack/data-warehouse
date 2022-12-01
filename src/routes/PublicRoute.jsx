@@ -11,10 +11,9 @@ import { Route, Redirect } from 'react-router-dom';
  * @returns Depending from the result of the ternary condition can be return to the user to the login page or can give access to the user.
  */
 
-
-const PublicRoute = ({auth, component: Component, ...rest}) => {
+const PublicRoute = ({ auth, component: Component, ...rest }) => {
     return (
-        <Route {...rest} component={(props) => !auth.log ? <Component {...props} /> : <Redirect to="/contact" />}/>
+        <Route {...rest} component={(props) => !auth.log ? <Component {...props} /> : <Redirect to="/contact" />} />
     )
 }
 

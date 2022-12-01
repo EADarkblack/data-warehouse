@@ -4,19 +4,19 @@
 }
 
 .company-title-container {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin: 4rem 2.7rem;
 }
 .company-title-container .company-title {
-  color: #1d72c2;
+  color: #e37820;
   font-family: "Open Sans", sans-serif;
   font-size: 2rem;
   font-weight: bold;
 }
 .company-title-container .add-company-btn {
-  background-color: #1d72c2;
+  background-color: #e37820;
   border: none;
   border-radius: 0.1rem;
   color: #ffffff;
@@ -28,8 +28,8 @@
 }
 .company-title-container .add-company-btn:hover {
   background-color: #ffffff;
-  border: 1px solid #1d72c2;
-  color: #1d72c2;
+  border: 1px solid #e37820;
+  color: #e37820;
 }
 
 .company-table-container {

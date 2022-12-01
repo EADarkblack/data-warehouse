@@ -1,26 +1,30 @@
 @import "../../sass/_variables.scss";
 
 .no-content-container {
-  width: 100%;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 100%;
+
   .no-content {
     margin: 8rem 0;
+
     .no-content-icon {
+      align-items: center;
       display: flex;
       justify-content: center;
-      align-items: center;
     }
+
     .icon {
-      width: 10rem;
       height: 10rem;
+      width: 10rem;
     }
+
     .no-content-title {
+      color: $mainColor;
       font-family: $mainFont;
       font-size: 1rem;
       margin-top: 2rem;
-      color: $mainColor;
     }
   }
 }

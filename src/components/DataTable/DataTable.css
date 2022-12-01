@@ -5,9 +5,9 @@
   margin-bottom: 0.2rem;
 }
 .select-opt .select-total {
-  background-color: #c0e0fd;
+  background-color: #ead1bc;
   border-radius: 0.1rem;
-  color: #0683f9;
+  color: #bf6113;
   font-family: "Open Sans", sans-serif;
   font-size: 0.75rem;
   padding: 0.2rem 0;
@@ -16,7 +16,7 @@
 }
 .select-opt .delete-container {
   align-items: center;
-  color: #1d72c2;
+  color: #e37820;
   cursor: pointer;
   display: flex;
   font-family: "Open Sans", sans-serif;
@@ -111,6 +111,6 @@
   cursor: pointer;
 }
 .pag-menu .pag-number .no-active-btn {
-  opacity: 0.5;
   cursor: not-allowed;
+  opacity: 0.5;
 }/*# sourceMappingURL=DataTable.css.map */

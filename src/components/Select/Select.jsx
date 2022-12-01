@@ -31,15 +31,6 @@ const Select = ({ data }) => {
     return (
         <label className="data-input">
             <p className="title-input">{data.title}<span>{data.require ? "*" : ""}</span></p>
-            {/*             <div className='pag-select'>
-                {
-                    dataSelect.map((item, i) => {
-                        return (
-                            <div key={i}>{item.name}</div>
-                        )
-                    })
-                }
-            </div> */}
             <select className="pag-select" disabled={data.option && data.option.length > 0 ? false : true} onChange={(e) => {
                 setUuid({
                     ...uuid,

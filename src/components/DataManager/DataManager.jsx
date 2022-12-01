@@ -1,6 +1,7 @@
 // Libraries
 
 import React, { useContext, useState } from 'react';
+import ImageUploading from 'react-images-uploading';
 
 // Components
 
@@ -20,7 +21,7 @@ import './DataManager.css';
 
 // Functions
 
-const DataManager = ({ info, current, token, moreInfo }) => {
+const DataManager = ({ info, current, token, moreInfo, scrollData, channel }) => {
 
     /**
      * states and Contexts to handle the data.
@@ -42,6 +43,8 @@ const DataManager = ({ info, current, token, moreInfo }) => {
 
     const { activeBtn, setActiveBtn } = useContext(ButtonContext);
 
+    const [image, setImage] = useState([]);
+
     /**
      * Allows close the "Data Manager" window on the app.
      */
@@ -51,19 +54,7 @@ const DataManager = ({ info, current, token, moreInfo }) => {
         setErrorMsg("");
         setCloseNode("data-manager-bg");
         setInputData({});
-    }
-
-    /**
-     * When the user start to typing on every input the button change its color and set every data typed by the user on the inputData state.
-     */
-
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setInputData({
-            ...inputData,
-            [e.target.name]: value
-        });
-        e.target.value.length > 0 ? setActiveBtn(btnConfig.btn_active) : setActiveBtn(btnConfig.btn);
+        setImage([]);
     }
 
     /**
@@ -95,6 +86,10 @@ const DataManager = ({ info, current, token, moreInfo }) => {
             addCompany(inputData);
         } else if (current === "edit-company") {
             editCompany(inputData);
+        } else if (current === "new-contact") {
+            addContact(inputData, channel, image);
+        } else if (current === "edit-contact") {
+            editContact(inputData, channel, image);
         }
     }
 
@@ -146,6 +141,24 @@ const DataManager = ({ info, current, token, moreInfo }) => {
         });
         const companies = await response.json();
         setAllData(companies);
+    }
+
+    /**
+     * Fetch to get all contacts from the database
+     */
+
+    const getAllContacts = async () => {
+        const response = await fetch('http://localhost:4000/v1/contact', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Sort': 'ASC',
+                'Column': 'id',
+                'limit': limit,
+                'offset': 0
+            }
+        });
+        const contacts = await response.json();
+        setAllData(contacts);
     }
 
     /**
@@ -567,36 +580,214 @@ const DataManager = ({ info, current, token, moreInfo }) => {
     }
 
     /**
-     * An object with every data for the button component. (Includes the function for every button.)
+     * Function to create a new contact, in case where the contact doesn't have a profile photo this function sets the deafult image's id // don't change the default image_id
      */
 
-    const btnConfig = {
-        btn_active:
-            [
-                {
-                    class: "cancel cancel-active",
-                    text: "Cancelar",
-                    func: closeNodeFunc
-                },
-                {
-                    class: "save-user active-save",
-                    text: "Guardar cambios",
-                    type: "submit"
+    const addContact = async (inputData, channel, image) => {
+        const { name, last_name, position, email, company, region, country, city, address, interest } = inputData;
+        if (name && last_name && position && email && company !== '' && region !== '' && country !== '' && city !== '' && address) {
+            if (image.length !== 0) {
+                const fd = new FormData();
+                const blobData = image[0].file;
+                fd.append('image', blobData);
+                const optionRequest = {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: fd
                 }
-            ],
-        btn:
-            [
-                {
-                    class: "cancel",
-                    text: "Cancelar",
-                    type: "button"
-                },
-                {
-                    class: "save-user",
-                    text: "Guardar cambios",
-                    type: "button"
+                const response = await fetch('http://localhost:4000/v1/contact/image/new', optionRequest);
+                const newImage = await response.json();
+                if (newImage.id !== "") {
+                    const optionContactRequest = {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name.trim(),
+                            last_name: last_name.trim(),
+                            position: position.trim(),
+                            email: email.trim(),
+                            company_uuid: company,
+                            region_uuid: region,
+                            country_uuid: country,
+                            city_uuid: city,
+                            address: address.trim(),
+                            channel: JSON.stringify(channel),
+                            interest: interest,
+                            image_id: newImage.id
+                        })
+                    }
+                    const response = await fetch('http://localhost:4000/v1/contact/new', optionContactRequest);
+                    const newContact = await response.json();
+                    if (newContact.error) {
+                        setErrorMsg("El correo electrónico ya se encuentra registrado.");
+                        setError(true);
+                    } else {
+                        setError(false);
+                        setErrorMsg("");
+                        setInputData({});
+                        setCloseNode("data-manager-bg");
+                        setImage([]);
+                        getAllContacts();
+                    }
+                } else {
+                    setErrorMsg("Hubo un error al intentar subir la imagen");
+                    setError(true);
                 }
-            ]
+            } else {
+                const optionContactRequest = {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name.trim(),
+                        last_name: last_name.trim(),
+                        position: position.trim(),
+                        email: email.trim(),
+                        company_uuid: company,
+                        region_uuid: region,
+                        country_uuid: country,
+                        city_uuid: city,
+                        address: address.trim(),
+                        channel: JSON.stringify(channel),
+                        interest: interest,
+                        image_id: 28
+                    })
+                }
+                const response = await fetch('http://localhost:4000/v1/contact/new', optionContactRequest);
+                const newContact = await response.json();
+                if (newContact.error) {
+                    setErrorMsg("El correo electrónico ya se encuentra registrado.");
+                    setError(true);
+                } else {
+                    setError(false);
+                    setErrorMsg("");
+                    setInputData({});
+                    setCloseNode("data-manager-bg");
+                    setImage([]);
+                    getAllContacts();
+                }
+            }
+        }
+        else {
+            setErrorMsg("Los campos con * no pueden estar vacíos.");
+            setError(true);
+        }
+    }
+
+    /**
+     * Function to edit any contact by its uuid, image_uuid is used to avoid to change the default image for anyelse image
+     */
+
+    const editContact = async (inputData, channel, image) => {
+        const image_uuid = info.image_uuid;
+        const fd = new FormData();
+        const blobData = image.length > 0 && image[0].file;
+        fd.append('image', blobData);
+        const { name, last_name, position, email, company, region, country, city, address, interest } = inputData;
+        if (image.length > 0) {
+            if (image_uuid === "a56e815b-1bca-44ec-9b8e-ba77a42f0c49") {
+                const optionRequest = {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: fd
+                }
+                const response = await fetch('http://localhost:4000/v1/contact/image/new', optionRequest);
+                const newImage = await response.json();
+                const optionContactRequest = {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name ? name.trim() : info.owner.name,
+                        last_name: last_name ? last_name.trim() : info.owner.last_name,
+                        position: position ? position.trim() : info.owner.position,
+                        email: email ? email.trim() : info.owner.email,
+                        company_uuid: company ? company : info.owner.company.uuid,
+                        region_uuid: region ? region : info.owner.region.uuid,
+                        country_uuid: country ? country : info.owner.country.uuid,
+                        city_uuid: city ? city : info.owner.city.uuid,
+                        address: address ? address.trim() : info.owner.address,
+                        channel: JSON.stringify(channel),
+                        interest: interest ? interest : info.owner.interest,
+                        image_id: newImage && newImage.id
+                    })
+                }
+                const responseEditContact = await fetch(`http://localhost:4000/v1/contact/${info.owner.uuid}`, optionContactRequest);
+                const updatedContact = await responseEditContact.json();
+                if (updatedContact.error) {
+                    setErrorMsg("Dato inválido.");
+                    setError(true);
+                } else {
+                    setInputData({});
+                    setCloseNode("data-manager-bg");
+                    setImage([]);
+                    getAllContacts();
+                }
+            } else {
+                const optionRequest = {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: fd
+                }
+                const response = await fetch(`http://localhost:4000/v1/contact/image/${image_uuid}`, optionRequest);
+                const updatedImage = await response.json();
+                if (updatedImage.error) {
+                    setErrorMsg("Error al actualizar la imagén.");
+                    setError(true);
+                }
+            }
+        }
+        const optionContactRequest = {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name ? name.trim() : info.owner.name,
+                last_name: last_name ? last_name.trim() : info.owner.last_name,
+                position: position ? position.trim() : info.owner.position,
+                email: email ? email.trim() : info.owner.email,
+                company_uuid: company ? company : info.owner.company.uuid,
+                region_uuid: region ? region : info.owner.region.uuid,
+                country_uuid: country ? country : info.owner.country.uuid,
+                city_uuid: city ? city : info.owner.city.uuid,
+                address: address ? address.trim() : info.owner.address,
+                channel: JSON.stringify(channel),
+                interest: interest ? interest : info.owner.interest
+            })
+        }
+        const response = await fetch(`http://localhost:4000/v1/contact/${info.owner.uuid}`, optionContactRequest);
+        const updatedContact = await response.json();
+        if (updatedContact.error) {
+            setErrorMsg("Dato inválido.");
+            setError(true);
+        } else {
+            setInputData({});
+            setCloseNode("data-manager-bg");
+            getAllContacts();
+        }
+    }
+
+    /**
+     * Function to get the information from a contact's image
+     */
+
+    const handleImageInput = async (imageList) => {
+        setImage(imageList);
     }
 
     return (
@@ -609,22 +800,32 @@ const DataManager = ({ info, current, token, moreInfo }) => {
                     </div>
                 </div>
                 <div className="data-section">
-                    <div className={info.pic && "profile-pic"}>
-                        <div className="upload-icon">
-                            <div className="blue-area">
-                                <i className="fas fa-camera"></i>
-                            </div>
-                        </div>
-                    </div>
                     {
-                        info.data_fields.map((item) => (
-                            <label className="data-input" key={item.title}>
-                                <div className="title-input">{item.title}<span>{item.require ? "*" : ""}</span></div>
-                                <div className="input-container no-active">
-                                    <input onChange={handleChange} className="input" type={item.type} name={item.name} placeholder={info.title_component.includes("Editar") ? item.owner_data : ""} disabled={item.disable} />
-                                </div>
-                            </label>
-                        ))
+                        info.pic === true && <ImageUploading multiple value={image} onChange={handleImageInput} maxNumber={1} dataURLKey="data_url" acceptType={["jpg", "png"]}>
+                            {
+                                (
+                                    {
+                                        onImageUpload,
+                                        dragProps
+                                    }
+                                ) => (
+                                    <div className={info.pic && "profile-pic"} onClick={onImageUpload} {...dragProps}>
+                                        {
+                                            image.length > 0 ? <img className="image-container" src={image[0].data_url} /> : info.image ? <img className="image-container" src={info.image} /> : <img className="image-container" src="assets/default.png" />
+                                        }
+                                        <div className="upload-icon">
+                                            <div className="blue-area">
+                                                <i className="fas fa-camera"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                        </ImageUploading>
+                    }
+                    {
+                        <ModalInputComponent inputs={info.data_fields} />
                     }
                 </div>
                 <div className="more-data-section">
@@ -632,12 +833,30 @@ const DataManager = ({ info, current, token, moreInfo }) => {
                         moreInfo && <ModalInputComponent inputs={moreInfo} />
                     }
                 </div>
+                <div className='scroll-data'>
+                    <div className='scroll-data-row'>
+                        {
+                            scrollData && <div className='container-inputs'>
+                                <ModalInputComponent inputs={scrollData} />
+                            </div>
+                        }
+                        {
+                            channel && channel.map((item, i) => {
+                                return (
+                                    <div className='container-inputs' key={i}>
+                                        <ModalInputComponent inputs={item} />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
                 <div className={error ? "error-msg active-msg" : "error-msg"}>{errorMsg}</div>
                 <div className="btn-container">
                     <Button dataBtn={activeBtn} />
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 

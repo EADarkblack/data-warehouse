@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 // Components
 
 import { AuthContext } from '../../context/AuthContext';
+import { ChangeProfileContext } from '../../context/ChangeProfileContext';
 import { authTypes } from '../../types/authTypes';
 
 // Styles
@@ -19,6 +20,8 @@ const LoginScreen = () => {
     /**
      * States and Contexts to handle the data.
      */
+
+    const { setProfile } = useContext(ChangeProfileContext);
 
     const { dispatch } = useContext(AuthContext);
 
@@ -84,9 +87,10 @@ const LoginScreen = () => {
         const data = await response.json();
         if (data.data) {
             dispatch({ type: authTypes.login });
-            history.push("/");
+            history.push("/contact");
             localStorage.setItem('token', JSON.stringify(data.token));
             localStorage.setItem('user', JSON.stringify(data.data.uuid));
+            setProfile(true);
         } else {
             setError(false);
         }

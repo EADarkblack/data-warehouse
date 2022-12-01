@@ -6,61 +6,180 @@
     height: 3.5rem;
     justify-content: space-between;
     padding: 0 1.09rem 0 1.16rem;
+
     .checkbox-container {
         align-items: center;
         display: flex;
         justify-content: center;
         margin: 0 1rem 1rem 0;
     }
+
     .data-box {
+        align-items: center;
+        display: flex;
         font-family: $mainFont;
         font-size: 0.9rem;
         font-weight: lighter;
         padding-left: 1.04rem;
         width: 100%;
+
         .fa-trash {
             display: none;
         }
+
         .fa-pen {
             display: none;
         }
+
+        .profile-photo {
+            border-radius: 100%;
+            height: 2rem;
+            overflow: hidden;
+            width: 2rem;
+        }
+
+        .hide-photo {
+            display: none;
+        }
+
+        .data-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
     }
+
     .data-box:nth-last-child(1) {
         padding-left: 0;
         padding-right: 1.04rem;
         text-align: center;
         width: 25%;
+
         .fa-ellipsis-h {
             color: darken($lineColor, $amount: 100);
             cursor: pointer;
         }
     }
 }
+
 .data-container:hover {
     background-color: $lineColor;
+
     .data-box {
         .fa-ellipsis-h {
             display: none;
         }
+
         .fa-trash {
             color: darken($lineColor, $amount: 50);
             cursor: pointer;
             display: inline-block;
         }
+
         .fa-trash:hover {
             color: darken($lineColor, $amount: 100);
         }
+
         .fa-pen {
             color: darken($lineColor, $amount: 50);
             cursor: pointer;
             display: inline-block;
             margin-left: 1rem;
         }
+
         .fa-pen:hover {
             color: darken($lineColor, $amount: 100);
         }
     }
 }
+
 .active-container {
     background-color: lighten($selectedColor, $amount: 15);
+}
+
+.data-image {
+    height: 100%;
+    width: 100%;
+}
+
+.data-subtitle {
+    color: darken($lineColor, $amount: 40);
+    font-size: 0.7rem;
+    max-width: 8rem;
+}
+
+.hide-subtitle {
+    display: none;
+}
+
+.data-graph-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hide-data-graph {
+    display: none;
+}
+
+.hide-title {
+    display: none;
+}
+
+.value {
+    margin-right: 1rem;
+    width: 1.5rem;
+}
+
+.interest-bar-container {
+    background-color: darken($lineColor, $amount: 10);
+    border: 1px solid darken($lineColor, $amount: 10);
+    border-radius: 1.5rem;
+    height: 0.4rem;
+    min-width: 9rem;
+    position: relative;
+
+    .color-0 {
+        opacity: 0;
+    }
+
+    .color-25 {
+        background-color: $percentage25Color;
+        border-radius: 1.5rem;
+        height: 0.56rem;
+        left: -0.08rem;
+        position: absolute;
+        top: -0.08rem;
+        width: 25%;
+    }
+
+    .color-50 {
+        background-color: $percentage50Color;
+        border-radius: 1.5rem;
+        height: 0.56rem;
+        left: -0.08rem;
+        position: absolute;
+        top: -0.08rem;
+        width: 50%;
+    }
+
+    .color-75 {
+        background-color: $percentage75Color;
+        border-radius: 1.5rem;
+        height: 0.56rem;
+        left: -0.08rem;
+        position: absolute;
+        top: -0.08rem;
+        width: 75%;
+    }
+
+    .color-100 {
+        background-color: $fourthColor;
+        border-radius: 1.5rem;
+        height: 0.56rem;
+        left: -0.08rem;
+        position: absolute;
+        top: -0.08rem;
+        width: 100%;
+    }
 }

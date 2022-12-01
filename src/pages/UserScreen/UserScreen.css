@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .title {
-  color: #1d72c2;
+  color: #e37820;
   font-family: "Open Sans", sans-serif;
   font-size: 2rem;
   font-weight: bold;
@@ -9,7 +9,7 @@
 }
 
 .user-data {
-  background-color: #1d72c2;
+  background-color: #e37820;
   display: flex;
   justify-content: space-between;
 }
@@ -26,7 +26,7 @@
 .user-data .edit-user-btn {
   align-items: center;
   align-self: flex-end;
-  background-color: #1d72c2;
+  background-color: #e37820;
   border: 1px solid #ffffff;
   border-radius: 0.2rem;
   cursor: pointer;
@@ -43,7 +43,7 @@
   background-color: #ffffff;
 }
 .user-data .edit-user-btn:hover i {
-  color: #1d72c2;
+  color: #e37820;
 }
 
 .event-btn {
@@ -52,7 +52,7 @@
   margin: 2rem 1.75rem 4.53rem 0;
 }
 .event-btn .add-user-btn {
-  background-color: #1d72c2;
+  background-color: #e37820;
   border: none;
   border-radius: 0.1rem;
   color: #ffffff;
@@ -64,8 +64,8 @@
 }
 .event-btn .add-user-btn:hover {
   background-color: #ffffff;
-  border: 1px solid #1d72c2;
-  color: #1d72c2;
+  border: 1px solid #e37820;
+  color: #e37820;
 }
 .event-btn .logout-btn {
   background-color: #de0028;

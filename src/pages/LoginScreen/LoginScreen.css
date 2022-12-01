@@ -11,9 +11,9 @@
 .login-screen .login-container {
   align-items: center;
   background-color: #ffffff;
-  border: 1px solid #1d72c2;
+  border: 1px solid #e37820;
   border-radius: 2rem;
-  box-shadow: 2px 4px 0px 0px #1d72c2;
+  box-shadow: 2px 4px 0px 0px #e37820;
   display: flex;
   flex-direction: column;
   height: 30rem;
@@ -31,7 +31,7 @@
   top: 3rem;
 }
 .login-screen .login-container .input-container {
-  border: 1px solid #1d72c2;
+  border: 1px solid #e37820;
   border-radius: 1.5rem;
   cursor: text;
   height: 3rem;
@@ -66,8 +66,8 @@
   width: 60%;
 }
 .login-screen .login-container .submit-btn {
-  background-color: #1d72c2;
-  border: 1px solid #1d72c2;
+  background-color: #e37820;
+  border: 1px solid #e37820;
   border-radius: 0.5rem;
   color: #ffffff;
   cursor: pointer;
@@ -83,5 +83,5 @@
 }
 .login-screen .login-container .submit-btn:hover {
   background-color: #ffffff;
-  color: #1d72c2;
+  color: #e37820;
 }/*# sourceMappingURL=LoginScreen.css.map */

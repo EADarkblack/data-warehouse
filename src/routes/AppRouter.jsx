@@ -14,11 +14,13 @@ import { OffsetContext } from '../context/OffsetContext';
 import { DataInputsContext } from '../context/DataInputsContext';
 import { ButtonContext } from '../context/ButtonContext';
 import CompanyScreen from '../pages/CompanyScreen/CompanyScreen';
-import ContactsScreen from '../pages/ContactsScreen';
+import ContactsScreen from '../pages/ContactScreen/ContactsScreen';
 import LocationScreen from '../pages/LocationScreen/LocationScreen';
 import UserScreen from '../pages/UserScreen/UserScreen';
 import { ModalDataInputContext } from '../context/ModalDataInputContext';
 import { MoreInfoContext } from '../context/MoreInfoContext';
+import { ChannelContext } from '../context/ChannelContext';
+import { QueryContext } from '../context/QueryContext';
 
 // Functions
 
@@ -43,6 +45,10 @@ const AppRouter = () => {
     const [inputData, setInputData] = useState({});
 
     const [moreInfo, setMoreInfo] = useState([]);
+
+    const [channels, setChannels] = useState([]);
+
+    const [input, setInput] = useState("");
 
     const createUserObj = {
         title_component: "",
@@ -121,10 +127,14 @@ const AppRouter = () => {
                                             <ButtonContext.Provider value={{ activeBtn, setActiveBtn }}>
                                                 <ModalDataInputContext.Provider value={{ inputData, setInputData }}>
                                                     <MoreInfoContext.Provider value={{ moreInfo, setMoreInfo }}>
-                                                        <Route exact path="/contact" component={ContactsScreen} />
-                                                        <Route exact path="/company" component={CompanyScreen} />
-                                                        <Route exact path="/user" component={UserScreen} />
-                                                        <Route exact path="/location" component={LocationScreen} />
+                                                        <ChannelContext.Provider value={{ channels, setChannels }}>
+                                                            <QueryContext.Provider value={{ input, setInput }}>
+                                                                <Route exact path="/contact" component={ContactsScreen} />
+                                                                <Route exact path="/company" component={CompanyScreen} />
+                                                                <Route exact path="/user" component={UserScreen} />
+                                                                <Route exact path="/location" component={LocationScreen} />
+                                                            </QueryContext.Provider>
+                                                        </ChannelContext.Provider>
                                                     </MoreInfoContext.Provider>
                                                 </ModalDataInputContext.Provider>
                                             </ButtonContext.Provider>

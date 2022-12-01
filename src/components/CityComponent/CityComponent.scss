@@ -10,11 +10,13 @@
   margin: 1rem 0 1rem 4rem;
   position: relative;
   z-index: 1;
+
   .city {
     color: $mainColor;
     font-size: 1.5rem;
     margin: 0 2rem;
   }
+
   .city-buttons {
     align-items: center;
     display: flex;
@@ -23,24 +25,29 @@
     margin: 0 0 0 2rem;
     position: absolute;
     right: 0;
+
     .edit-city-btn {
       color: lighten($color: $mainColor, $amount: 25);
       cursor: pointer;
       margin-right: 2rem;
     }
+
     .edit-city-btn:hover {
       color: $mainColor;
     }
+
     .delete-city-btn {
       color: lighten($color: $fourthColor, $amount: 25);
       cursor: pointer;
       margin-right: 2rem;
     }
+
     .delete-city-btn:hover {
       color: $fourthColor;
     }
   }
 }
+
 .city-container-comp:hover {
   box-shadow: lighten($color: $mainColor, $amount: 10) 3px 3px 5px;
 }

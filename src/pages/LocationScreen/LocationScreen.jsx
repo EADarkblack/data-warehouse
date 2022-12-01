@@ -94,6 +94,7 @@ const LocationScreen = () => {
      */
 
     useEffect(() => {
+        setInfoComponent(createRegion);
         getAllRegions();
     }, []);
 

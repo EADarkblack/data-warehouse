@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.2rem;
+
   .select-total {
     background-color: lighten($selectedColor, $amount: 10);
     border-radius: 0.1rem;
@@ -14,6 +15,7 @@
     text-align: center;
     width: 7rem;
   }
+
   .delete-container {
     align-items: center;
     color: $mainColor;
@@ -21,20 +23,24 @@
     display: flex;
     font-family: $mainFont;
     font-size: 0.9rem;
+
     .fa-trash {
       margin-right: 0.5rem;
     }
   }
 }
+
 .hide-opt {
   display: none;
 }
+
 .table-border {
   border: 1px solid darken($lineColor, $amount: 15);
   margin-bottom: 1.74rem;
   min-height: 39rem;
   padding-top: 0.72rem;
   width: 100%;
+
   .title-row {
     align-items: center;
     border-bottom: 1px solid darken($lineColor, $amount: 15);
@@ -42,12 +48,14 @@
     height: 3.5rem;
     justify-content: space-between;
     padding: 0 1.09rem 0 1.16rem;
+
     .checkbox-container {
       align-items: center;
       display: flex;
       justify-content: center;
       margin: 0 1rem 1rem 0;
     }
+
     .title-column {
       font-family: $mainFont;
       font-size: 0.9rem;
@@ -55,6 +63,7 @@
       padding-left: 1.04rem;
       width: 100%;
     }
+
     .title-column:nth-last-child(1) {
       padding-left: 0;
       padding-right: 1.04rem;
@@ -62,11 +71,13 @@
       width: 25%;
     }
   }
+
   .fa-sort {
     cursor: pointer;
     margin-left: 0.54rem;
   }
 }
+
 .pag-menu {
   color: darken($lineColor, $amount: 50);
   display: flex;
@@ -75,9 +86,11 @@
   height: 1rem;
   justify-content: space-between;
   margin-bottom: 3.51rem;
+
   .pag-controller {
     align-items: center;
     display: flex;
+
     .pag-select {
       border: 1px solid $secondColor;
       color: darken($lineColor, $amount: 50);
@@ -87,28 +100,34 @@
       margin: 0 0.41rem 0 0.95rem;
       outline: none;
     }
+
     .fa-chevron-down {
       cursor: pointer;
     }
   }
+
   .pag-number {
     align-items: center;
     display: flex;
+
     .arrows {
       display: flex;
       justify-content: space-between;
       margin-left: 3.04rem;
       width: 3rem;
     }
+
     .fa-chevron-left {
       cursor: pointer;
     }
+
     .fa-chevron-right {
       cursor: pointer;
     }
+
     .no-active-btn {
-      opacity: 0.5;
       cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 }

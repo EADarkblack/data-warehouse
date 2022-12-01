@@ -37,7 +37,7 @@
   margin: 0;
 }
 .node-bg .node-container .cancel-btn {
-  background-color: #1d72c2;
+  background-color: #e37820;
   border: none;
   border-radius: 0.1rem;
   color: #ffffff;
@@ -49,8 +49,8 @@
 }
 .node-bg .node-container .cancel-btn:hover {
   background-color: #ffffff;
-  border: 1px solid #1d72c2;
-  color: #1d72c2;
+  border: 1px solid #e37820;
+  color: #e37820;
 }
 .node-bg .node-container .delete-btn {
   background-color: #de0028;

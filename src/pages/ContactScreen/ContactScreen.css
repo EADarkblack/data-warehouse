@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+* {
+  margin: 0;
+}
+
+.contact-title-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 4rem 2.7rem;
+}
+.contact-title-container .search-title-container {
+  width: 45%;
+}
+.contact-title-container .search-title-container .contact-title {
+  color: #e37820;
+  font-family: "Open Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.contact-title-container .search-title-container .input-container {
+  margin-top: 1rem;
+}
+.contact-title-container .contact-btn-container {
+  align-self: flex-end;
+}
+.contact-title-container .contact-btn-container .add-contact-btn {
+  background-color: #e37820;
+  border: none;
+  border-radius: 0.1rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  height: 2.63rem;
+  margin-right: 0.53rem;
+  width: 10.81rem;
+}
+.contact-title-container .contact-btn-container .add-contact-btn:hover {
+  background-color: #ffffff;
+  border: 1px solid #e37820;
+  color: #e37820;
+}
+
+.contact-table-container {
+  margin: 1.5rem 1.78rem 0 1.72rem;
+}/*# sourceMappingURL=ContactScreen.css.map */

@@ -7,9 +7,11 @@
   margin-top: 1.2rem;
   position: relative;
   width: 0.94rem;
+
   .icon {
     display: none;
   }
+
   .checkbox {
     cursor: pointer;
     height: 1rem;
@@ -21,9 +23,11 @@
     z-index: 1;
   }
 }
+
 .block {
-  border: 2px solid lighten($color: $mainColor, $amount: 30);
   background-color: lighten($color: $mainColor, $amount: 30);
+  border: 2px solid lighten($color: $mainColor, $amount: 30);
+
   .icon {
     align-items: center;
     color: $secondColor;
@@ -32,9 +36,11 @@
     justify-content: center;
   }
 }
+
 .active {
-  border: 2px solid $mainColor;
   background-color: $mainColor;
+  border: 2px solid $mainColor;
+
   .icon {
     align-items: center;
     color: $secondColor;

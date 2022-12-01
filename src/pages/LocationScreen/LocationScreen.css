@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 .location-title-container {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin: 0 2.7rem;
 }
 .location-title-container .location-title {
-  color: #1d72c2;
+  color: #e37820;
   font-family: "Open Sans", sans-serif;
   font-size: 2rem;
   font-weight: bold;
@@ -17,7 +17,7 @@
   margin: 2rem 2rem 4rem 0;
 }
 .location-title-container .button-container .add-region-btn {
-  background-color: #1d72c2;
+  background-color: #e37820;
   border: none;
   border-radius: 0.1rem;
   color: #ffffff;
@@ -29,6 +29,6 @@
 }
 .location-title-container .button-container .add-region-btn:hover {
   background-color: #ffffff;
-  border: 1px solid #1d72c2;
-  color: #1d72c2;
+  border: 1px solid #e37820;
+  color: #e37820;
 }/*# sourceMappingURL=LocationScreen.css.map */

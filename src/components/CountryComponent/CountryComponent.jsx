@@ -44,7 +44,7 @@ const CountryComponent = ({ country, token }) => {
                 require: true,
                 type: "text",
                 name: "name",
-                owner_data: country.name
+                value: country.name
             }
         ],
         owner: country,

@@ -22,14 +22,6 @@ Company.belongsTo(Country, { foreignKey: 'country_id' });
 City.hasMany(Company, { foreignKey: 'city_id' });
 Company.belongsTo(City, { foreignKey: 'city_id' });
 
-//Sync function to create a new table - DON'T DELETE IT
-
-/* Company.sync({ force: true }).then(() => {
-    console.log("Company table created");
-}).catch((err) => {
-    console.log(err)
-}) */
-
 // Middlewares
 
 /**

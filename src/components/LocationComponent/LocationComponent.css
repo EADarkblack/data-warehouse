@@ -5,7 +5,7 @@
 .component-container .region-container {
   align-items: center;
   background-color: #ffffff;
-  border: 1px solid #74b1ea;
+  border: 1px solid #f1bd91;
   border-radius: 0.5rem;
   display: flex;
   height: 4rem;
@@ -13,13 +13,13 @@
   z-index: 2;
 }
 .component-container .region-container .deploy-icon {
-  color: #1d72c2;
+  color: #e37820;
   cursor: pointer;
   font-size: 2.5rem;
   margin-left: 2rem;
 }
 .component-container .region-container .region {
-  color: #1d72c2;
+  color: #e37820;
   font-size: 1.5rem;
   margin: 0 2rem;
 }
@@ -34,7 +34,7 @@
 }
 .component-container .result-area {
   background-color: #ffffff;
-  border: 1px solid #74b1ea;
+  border: 1px solid #f1bd91;
   border-radius: 0.5rem;
   display: block;
   min-height: 8rem;
@@ -47,17 +47,17 @@
   display: none;
 }
 .component-container .region-container:hover {
-  box-shadow: #328ce0 3px 3px 5px;
+  box-shadow: #e9934d 3px 3px 5px;
 }
 
 .edit-region-btn {
-  color: #74b1ea;
+  color: #f1bd91;
   cursor: pointer;
   margin-right: 2rem;
 }
 
 .edit-region-btn:hover {
-  color: #1d72c2;
+  color: #e37820;
 }
 
 .delete-region-btn {
@@ -71,11 +71,11 @@
 }
 
 .add-country-btn {
-  color: #74b1ea;
+  color: #f1bd91;
   cursor: pointer;
   margin-right: 2rem;
 }
 
 .add-country-btn:hover {
-  color: #1d72c2;
+  color: #e37820;
 }/*# sourceMappingURL=LocationComponent.css.map */

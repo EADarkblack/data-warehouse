@@ -21,15 +21,6 @@ import './DataTable.css';
 
 const DataTable = ({ user, columns, tableClass, token, title_delete, totalResults }) => {
 
-    // DON'T DELETE IT - It's used to debug all the props
-
-    /*     console.log(user)
-        console.log(columns)
-        console.log(tableClass)
-        console.log(token)
-        console.log(title_delete)
-        console.log(totalResults) */
-
     /**
      * States and contexts to handle the data.
      */

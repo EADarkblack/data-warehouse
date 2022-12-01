@@ -72,6 +72,24 @@ const ConfirmationNode = ({ token, page }) => {
     }
 
     /**
+     * Fetch to get all contact saved in database.
+     */
+
+    const getAllContacts = async () => {
+        const response = await fetch('http://localhost:4000/v1/contact', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Sort': 'ASC',
+                'Column': 'id',
+                'limit': 1000,
+                'offset': 0
+            }
+        });
+        const contacts = await response.json();
+        setAllData(contacts);
+    }
+
+    /**
      * This function allows to delete all the data selected from the data table.
      */
 
@@ -112,6 +130,26 @@ const ConfirmationNode = ({ token, page }) => {
     }
 
     /**
+     * This function allows to delete all the data selected from the data table.
+     */
+
+    const deleteAllContacts = () => {
+        const requestOpt = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        }
+        checkboxData.forEach(async (item) => {
+            const response = await fetch(`http://localhost:4000/v1/contact/${item}`, requestOpt);
+            const dataRes = await response.json();
+            dataRes && getAllContacts();
+            setCheckboxData([]);
+            setConfirmationNode("node-bg no-active-node");
+        });
+    }
+
+    /**
      * Function to handle the delete's functions
      */
 
@@ -120,6 +158,8 @@ const ConfirmationNode = ({ token, page }) => {
             deleteAllUsers();
         } else if (page === "compañias") {
             deleteAllCompanies();
+        } else if (page === "contactos") {
+            deleteAllContacts();
         }
     }
 

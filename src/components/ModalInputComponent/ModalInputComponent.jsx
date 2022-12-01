@@ -49,7 +49,10 @@ const ModalInputComponent = ({ inputs }) => {
 
     const closeNodeFunc = () => {
         setCloseNode("data-manager-bg");
-        setInputData({});
+        setInputData({
+            name: "",
+            last_name: ""
+        });
     }
 
     /**
@@ -93,7 +96,7 @@ const ModalInputComponent = ({ inputs }) => {
                         return (
                             <Select data={item} key={i} />
                         )
-                    } else if (item.type === "text") {
+                    } else if (item.type === "text" || item.type === "password" || item.type === "email") {
                         return (
                             <label className="data-input" key={i}>
                                 <div className="title-input">{item.title}<span>{item.require ? "*" : ""}</span></div>
@@ -102,7 +105,7 @@ const ModalInputComponent = ({ inputs }) => {
                                 </div>
                             </label>
                         )
-                    } else {
+                    } else if (item.type !== "id") {
                         return (
                             <Button dataBtn={item.btn} key={i} />
                         )

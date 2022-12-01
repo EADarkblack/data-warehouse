@@ -2,7 +2,7 @@
 .city-container-comp {
   align-items: center;
   background-color: #ffffff;
-  border: 1px solid #74b1ea;
+  border: 1px solid #f1bd91;
   border-radius: 0.5rem;
   display: flex;
   height: 4rem;
@@ -11,7 +11,7 @@
   z-index: 1;
 }
 .city-container-comp .city {
-  color: #1d72c2;
+  color: #e37820;
   font-size: 1.5rem;
   margin: 0 2rem;
 }
@@ -25,12 +25,12 @@
   right: 0;
 }
 .city-container-comp .city-buttons .edit-city-btn {
-  color: #74b1ea;
+  color: #f1bd91;
   cursor: pointer;
   margin-right: 2rem;
 }
 .city-container-comp .city-buttons .edit-city-btn:hover {
-  color: #1d72c2;
+  color: #e37820;
 }
 .city-container-comp .city-buttons .delete-city-btn {
   color: #ff5f7b;
@@ -42,5 +42,5 @@
 }
 
 .city-container-comp:hover {
-  box-shadow: #328ce0 3px 3px 5px;
+  box-shadow: #e9934d 3px 3px 5px;
 }/*# sourceMappingURL=CityComponent.css.map */

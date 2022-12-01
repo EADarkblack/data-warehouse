@@ -44,7 +44,7 @@ const LocationComponent = ({ region, token }) => {
                 require: true,
                 type: "text",
                 name: "name",
-                owner_data: region.name
+                value: region.name
             }
         ],
         owner: region,

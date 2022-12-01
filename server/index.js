@@ -9,12 +9,13 @@ const user = require('./src/user');
 const city = require('./src/city');
 const company = require('./src/company');
 const helmet = require('helmet');
+const contact = require('./src/contact');
 const cors = require('cors');
 
 // Middlewares
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '50mb' }));
 app.use(helmet());
 app.use(cors());
 
@@ -24,7 +25,8 @@ app.use(company);
 app.use(user);
 app.use(region);
 app.use(country);
-app.use(city)
+app.use(city);
+app.use(contact);
 
 // listen
 
