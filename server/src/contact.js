@@ -99,9 +99,9 @@ router.get(`${VERSION}/contact`, validateToken, (req, res) => {
             ]
         },
         attributes: { exclude: ['id', 'company_id', 'region_id', 'country_id', 'city_id', 'image_id'] },
-        order: sortArr.length > 1 ? orderTypeFK : orderNative,
-        limit: limitValue,
-        offset: offsetValue,
+        order: sortArr.length > 1 ? orderTypeFK : sortValue && orderNative,
+        limit: limitValue ? limitValue : 1000,
+        offset: limitValue ? offsetValue : 0,
         include: [
             {
                 model: Company,

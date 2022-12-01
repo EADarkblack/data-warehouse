@@ -1,9 +1,9 @@
-						PROYECTO DELILAH RESTÓ
+						PROYECTO DATA WAREHOUSE
 
 =============================================================================================================================
 
 * Enlace Repositorio:
 
-https://github.com/EADarkblack/delilah_resto
+https://github.com/EADarkblack/data-warehouse
 
 =============================================================================================================================

@@ -252,7 +252,7 @@ router.get(`${VERSION}/region/:id/country`, validateToken, (req, res) => {
             const { id } = data.dataValues;
             Country.findAll({
                 where: { region_id: id },
-                attributes: { exclude: ['id'] },
+                attributes: { exclude: ['id', 'region_id'] },
             })
                 .then((data) => {
                     data ? res.json(data) : res.status(404).json({

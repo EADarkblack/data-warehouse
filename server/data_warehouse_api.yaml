@@ -1,0 +1,1479 @@
+openapi: 3.0.1
+info:
+  title: Documentación Data Warehouse
+  description: >-
+    La presente documentación pertenece al proyecto Data Warehouse, el cual
+    consta de una API dirigida a la gestión de usuarios y contactos de una agencia de marketing.
+
+    La API de Data Warehouse esta contruida en base de la arquitectura API Rest.
+    Y con esta se busca implementar un sistema CRUD para un sistema de gestión de contactos.
+
+    >- Para hacer uso de esta API es necesario crear una cuenta y posteriormente
+    iniciar sesión, esto con el fin de obtener el TOKEN el cual sera solicitado
+    por todos los endpoints de la API de Data Warehouse.
+    
+    >- Se recomienda no eliminar el usuario Admin y la imagen por defecto de la base de datos, ya que esto podria causar algunos fallos en la aplicación.
+  contact:
+    email: wilmarfm156@hotmail.com
+  version: 1.0.1
+servers:
+  - url: http://localhost:4000/v1
+tags:
+  - name: user
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de los usuarios de la API de Data Warehouse.
+  - name: region
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de las regiones de la API Data Warehouse.
+  - name: country
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de los paises de la API Data Warehouse.
+  - name: city
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de las ciudades de la API Data Warehouse.
+  - name: company
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de las compañias de la API Data Warehouse.
+  - name: contact
+    description: >-
+      En esta sección se encuentran todos los endpoints que permitiran la
+      gestión de los contactos de la API Data Warehouse.
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Lista de usuarios.
+      description: >-
+        Retorna un arreglo con todo los usuarios existentes en la base de datos.
+        (Se requieren permisos de administrador para realizar esta acción.)
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        '401':
+          description: Token invalido.
+        '403':
+          description: Se requieren permisos de administrador para realizar esta acción.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Login de usuario.
+      description: Permite al usuario acceder a la aplicación.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+      responses:
+        '200':
+          description: Usuario logueado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_token'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: Registro de usuario.
+      description: Permite registrar un usuario nuevo a la aplicación (Se requieren permisos de administrador
+        para realizar esta acción.)
+      requestBody:
+        required: true
+        description: Estructura del objeto usuario.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/register'
+      responses:
+        '200':
+          description: Usuario registrado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: Obtener usuario por Id.
+      description: >-
+        Obtiene un usuario por su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: Usuario no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    put:
+      tags:
+        - user
+      summary: Actualizar un usuario por Id.
+      description: >-
+        Permite modificar la información de un usuario en particular llamando a
+        este por su Id. (Un usuario administrador puede modificar información de
+        cualquier usuario dentro de la base de datos, mientras que un usuario
+        básico esta limitado unicamente a modificar su propia información.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Estructura del body con los datos del usuario actualizado.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/register'
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: Usuario no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - user
+      summary: Eliminar usuario por Id.
+      description: >-
+        Permite eliminar un usuario buscandolo por su Id. (Solo un usuario tipo administrador puede eliminar a otro usuario por su uuid.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_user'
+        '404':
+          description: Usuario no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /region:
+    get:
+      tags:
+        - region
+      summary: Lista de regiones.
+      description: >-
+        Retorna un arreglo con todos las regiones existentes en la base de
+        datos.
+      parameters:
+        - name: token
+          in: header
+          description: El token debe ir en el encabezado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /region/new:
+    post:
+      tags:
+        - region
+      summary: Crear una nueva región.
+      description: >-
+        Permite crear una región nueva.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto región.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_location'
+      responses:
+        '200':
+          description: >-
+            Región creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /region/{id}:
+    get:
+      tags:
+        - region
+      summary: Obtener una región por su Id.
+      description: >-
+        Permite obtener una región en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '404':
+          description: Región no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    put:
+      tags:
+        - region
+      summary: Actualizar región por su Id.
+      description: >-
+        Permite actualizar una región en particular buscando a este por medio
+        de su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos de la región actualizada.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_location'
+      responses:
+        '200':
+          description: Región actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - region
+      summary: Eliminar una región por su Id.
+      description: >-
+        Permite eliminar una región en particular buscando a este por medio de
+        su Id. Al momento de eliminar una región los paises y ciudades que hacen parte de esta son eliminados.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Región eliminada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_region'
+        '404':
+          description: Región no encontrada.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /region/{id}/country:
+    get:
+      tags:
+        - region
+      summary: Listado de paises de una región especifica.
+      description: >-
+        Permite obtener el listado de paises pertenecientes a una región especificada por su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: >-
+            El ID debe ser de la región.
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/countries_from_region'
+        '404':
+          description: País no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /country:
+    get:
+      tags:
+        - country
+      summary: Listado de paises.
+      description: >-
+        Retorna un arreglo con todos los paises existentes en la base de
+        datos.
+      parameters:
+        - name: token
+          in: header
+          description: El token debe ir en el encabezado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/created_region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /country/new:
+    post:
+      tags:
+        - country
+      summary: Crear un nuevo país.
+      description: >-
+        Permite crear un país nuevo.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto país.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_country'
+      responses:
+        '200':
+          description: >-
+            País creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /country/{id}:
+    get:
+      tags:
+        - country
+      summary: Obtener un país por su Id.
+      description: >-
+        Permite obtener un país en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '404':
+          description: País no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    put:
+      tags:
+        - country
+      summary: Actualizar un país por su Id.
+      description: >-
+        Permite actualizar un país en particular buscando a este por medio
+        de su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos del país actualizado.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_location'
+      responses:
+        '200':
+          description: País actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - country
+      summary: Eliminar un país por su Id.
+      description: >-
+        Permite eliminar un país en particular buscando a este por medio de
+        su Id. Al momento de eliminar un país las ciudades que hacen parte de esta son eliminadas.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: País eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_country'
+        '404':
+          description: País no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /country/{id}/city:
+    get:
+      tags:
+        - country
+      summary: Listado de ciudades de un país especifico.
+      description: >-
+        Permite obtener el listado de ciudades pertenecientes a un país especificado por su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: >-
+            El ID debe ser del país.
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/countries_from_region'
+        '404':
+          description: Ciudad no encontrada.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /city:
+    get:
+      tags:
+        - city
+      summary: Listado de ciudades.
+      description: >-
+        Retorna un arreglo con todos las ciudades existentes en la base de
+        datos.
+      parameters:
+        - name: token
+          in: header
+          description: El token debe ir en el encabezado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/created_region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /city/new:
+    post:
+      tags:
+        - city
+      summary: Crea una nueva ciudad.
+      description: >-
+        Permite crear una ciudad nueva.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto ciudad.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_city'
+      responses:
+        '200':
+          description: >-
+            Ciudad creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /city/{id}:
+    get:
+      tags:
+        - city
+      summary: Obtener una ciudad por su Id.
+      description: >-
+        Permite obtener una ciudad en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '404':
+          description: Ciudad no encontrada.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    put:
+      tags:
+        - city
+      summary: Actualizar una ciudad por su Id.
+      description: >-
+        Permite actualizar una ciudad en particular buscando a este por medio
+        de su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos de la ciudad actualizada.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_location'
+      responses:
+        '200':
+          description: Ciudad actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_region'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - city
+      summary: Eliminar una ciudad por su Id.
+      description: >-
+        Permite eliminar una ciudad en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ciudad eliminada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_city'
+        '404':
+          description: Ciudad no encontrada.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /company:
+    get:
+      tags:
+        - company
+      summary: Listado de compañias.
+      description: >-
+        Retorna un arreglo con todos las compañias existentes en la base de
+        datos.
+      parameters:
+        - name: token
+          in: header
+          description: El token debe ir en el encabezado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/created_company'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /company/new:
+    post:
+      tags:
+        - company
+      summary: Crea una nueva compañia.
+      description: >-
+        Permite crear una compañia nueva.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto compañia.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_company'
+      responses:
+        '200':
+          description: >-
+            Compañia creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_company'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /company/{id}:
+    put:
+      tags:
+        - company
+      summary: Actualizar una compañia por su Id.
+      description: >-
+        Permite actualizar una compañia en particular buscando a esta por medio
+        de su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos de la compañia actualizada.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_company'
+      responses:
+        '200':
+          description: Compañia actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_company'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - company
+      summary: Eliminar una compañia por su Id.
+      description: >-
+        Permite eliminar una compañia en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Compañia eliminada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_company'
+        '404':
+          description: Compañia no encontrada.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /contact:
+    get:
+      tags:
+        - contact
+      summary: Listado de contactos.
+      description: >-
+        Retorna un arreglo con todos los contactos existentes en la base de
+        datos.
+      parameters:
+        - name: q
+          in: query
+          description: Obtiene un listado de contactos dependiendo de lo recibido en el query.
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: header
+          description: El token debe ir en el encabezado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/created_contact'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /contact/new:
+    post:
+      tags:
+        - contact
+      summary: Crea un nuevo contacto.
+      description: >-
+        Permite crear un contacto nuevo.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto contacto.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_contact'
+      responses:
+        '200':
+          description: >-
+            Contacto creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_contact'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /contact/{id}:
+    put:
+      tags:
+        - contact
+      summary: Actualizar un contacto por su Id.
+      description: >-
+        Permite actualizar un contacto en particular buscando a esta por medio
+        de su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos del contacto actualizado.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_contact'
+      responses:
+        '200':
+          description: Contacto actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_contact'
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+    delete:
+      tags:
+        - contact
+      summary: Eliminar un contacto por su Id.
+      description: >-
+        Permite eliminar un contacto en particular buscando a este por medio de
+        su Id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Contacto eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleted_contact'
+        '404':
+          description: Contacto no encontrado.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+  /contact/image/new:
+    post:
+      tags:
+        - contact
+      summary: Subir imagen.
+      description: >-
+        Permite subir la imagen de un usuario especifico.
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Estructura del objeto contacto.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_image'
+      responses:
+        '200':
+          description: >-
+            Imagen creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/created_image_only_id'
+        '400':
+          description: La información recibida no es válida o falta información necesaria.
+  /contact/image/{id}:
+    put:
+      tags:
+        - contact
+      summary: Actualizar imagen de un contacto.
+      description: >-
+        Permite actualizar la imagen de un contacto en particular buscando a esta por medio
+        de su Id.
+      parameters:
+        - name: id
+          description: El ID debe pertencer a la imagen que se planea editar.
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Estructura del body con los datos de la imagen para ser actualizada.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_image'
+      responses:
+        '200':
+          description: Imagen actualizada exitosamente.
+        '500':
+          description: Ha ocurrido un problema con el servidor.
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        profile:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - email
+        - password
+    register:
+      type: object
+      properties:
+        name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        profile:
+          type: boolean
+        password:
+          type: string
+          format: password
+      required:
+        - name
+        - email
+        - profile
+        - password
+    user_token:
+      type: object
+      properties:
+        token:
+          type: string
+        data:
+          $ref: '#/components/schemas/user'
+    deleted_user:
+      type: object
+      properties:
+        message:
+          type: string
+          default: User deleted successfully.
+        status:
+          type: integer
+          default: 200
+    region:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/country'
+    country:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        cities:
+          type: array
+          items:
+            $ref: '#/components/schemas/city'
+    city:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    new_location:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    created_region:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    deleted_region:
+      type: object
+      properties:
+        message:
+          type: string
+          default: Region deleted successfully.
+        status:
+          type: integer
+          default: 200
+    countries_from_region:
+      type: array
+      items:
+        $ref: '#/components/schemas/created_country'
+    new_country:
+      type: object
+      properties:
+        name:
+          type: string
+        region_id:
+          type: number
+      required:
+        - name
+        - region_id
+    created_country:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    deleted_country:
+      type: object
+      properties:
+        message:
+          type: string
+          default: Country deleted successfully.
+        status:
+          type: integer
+          default: 200
+    new_city:
+      type: object
+      properties:
+        name:
+          type: string
+        country_id:
+          type: number
+      required:
+        - name
+        - country_id
+    deleted_city:
+      type: object
+      properties:
+        message:
+          type: string
+          default: City deleted successfully.
+        status:
+          type: integer
+          default: 200
+    created_company:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        region:
+            $ref: '#/components/schemas/created_region'
+        country:
+            $ref: '#/components/schemas/created_region'
+        city:
+            $ref: '#/components/schemas/created_region'
+    company_without_location:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    new_company:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          type: string
+        region_id:
+          type: number
+        country_id:
+          type: number
+        city_id:
+          type: number
+      required:
+        - name
+        - email
+        - phone
+        - address
+        - region_id
+        - country_id
+        - city_id
+    deleted_company:
+      type: object
+      properties:
+        message:
+          type: string
+          default: Company deleted successfully.
+        status:
+          type: integer
+          default: 200
+    created_contact:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        last_name:
+          type: string
+        position:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        interest:
+          type: number
+        channel:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        company:
+            $ref: '#/components/schemas/company_without_location'
+        region:
+            $ref: '#/components/schemas/created_region'
+        country:
+            $ref: '#/components/schemas/created_region'
+        city:
+            $ref: '#/components/schemas/created_region'
+        image:
+            $ref: '#/components/schemas/created_image'
+    new_contact:
+      type: object
+      properties:
+        name:
+          type: string
+        last_name:
+          type: string
+        position:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        interest:
+          type: number
+        channel:
+          type: string
+        company_id:
+          type: number
+        region_id:
+          type: number
+        country_id:
+          type: number
+        city_id:
+          type: number
+        image_id:
+          type: number
+      required:
+        - name
+        - last_name
+        - position
+        - email
+        - address
+        - comapny_id
+        - region_id
+        - country_id
+        - city_id
+    deleted_contact:
+      type: object
+      properties:
+        message:
+          type: string
+          default: Contact deleted successfully.
+        status:
+          type: integer
+          default: 200
+    created_image:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        type:
+          type: string
+        name:
+          type: string
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+            data:
+              type: array
+              items:
+                type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    new_image:
+      type: object
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        data:
+          type: number
+    created_image_only_id:
+      type: object
+      properties:
+        id:
+          type: number

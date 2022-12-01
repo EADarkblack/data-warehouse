@@ -44,7 +44,7 @@ function validateToken(req, res, next) {
 
 router.get(`${VERSION}/country`, validateToken, (req, res) => {
     Country.findAll({
-        attributes: { exclude: ['id'] },
+        attributes: { exclude: ['id', 'region_id'] },
     })
         .then((data) => {
             res.json(data);
@@ -232,7 +232,7 @@ router.get(`${VERSION}/country/:id/city`, validateToken, (req, res) => {
             const { id } = data.dataValues;
             City.findAll({
                 where: { country_id: id },
-                attributes: { exclude: ['id'] },
+                attributes: { exclude: ['id', 'country_id'] },
             })
                 .then((data) => {
                     data ? res.json(data) : res.status(404).json({

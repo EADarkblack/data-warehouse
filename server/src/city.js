@@ -40,7 +40,7 @@ function validateToken(req, res, next) {
 
 router.get(`${VERSION}/city`, validateToken, (req, res) => {
     City.findAll({
-        attributes: { exclude: ['id'] },
+        attributes: { exclude: ['id', 'country_id'] },
     })
         .then((data) => {
             res.json(data);
@@ -109,7 +109,7 @@ router.get(`${VERSION}/city/:id`, validateToken, (req, res) => {
     })
         .then((data) => {
             data ? res.json(data) : res.status(404).json({
-                error: 'Region not found.',
+                error: 'City not found.',
                 status: 404
             });
         })

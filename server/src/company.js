@@ -53,9 +53,9 @@ router.get(`${VERSION}/company`, validateToken, (req, res) => {
     const sortColumn = req.rawHeaders[9];
     Company.findAll({
         attributes: { exclude: ['id', 'region_id', 'country_id', 'city_id'] },
-        order: [[`${sortColumn}`, `${sortValue}`]],
-        limit: limitValue,
-        offset: offsetValue,
+        order: sortValue && [[`${sortColumn}`, `${sortValue}`]],
+        limit: limitValue ? limitValue : 1000,
+        offset: limitValue ? offsetValue : 0,
         include: [{
             model: Region,
             attributes: { exclude: ['id'] }
